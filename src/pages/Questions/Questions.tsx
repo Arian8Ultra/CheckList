@@ -11,10 +11,12 @@ import TitleCard from "../../components(app)/Question/TitleCard";
 import useLayoutStore from "../../stores/layoutStore";
 import LinkButton from "../../components/LinkButton";
 import NewModal from "../../components/Modals";
-import { primary } from "../../theme/Colors";
+import { Green, GreenLight, primary } from "../../theme/Colors";
 import { Text } from "@chakra-ui/react";
 import TextInput from "../../components/TextInput";
 import RelatedFileCard from "../../components(app)/Question/RelatedFileCard";
+import IButton from "../../components/IButton";
+import { AddCircleRounded } from "@mui/icons-material";
 
 function Questions() {
   const { questionId } = useParams();
@@ -22,6 +24,11 @@ function Questions() {
   const [relatedFiles, setRelatedFiles] = useState([]);
   const token = usePersistStore((state) => state.token);
   const [relatedFileTitle, setRelatedFileTitle] = useState("");
+  const [addRelatedFileModal, setAddRelatedFileModal] = useState({
+    open: false,
+    description: "",
+    fileName: "",
+  });
 
   const [relatedFileDesc, setRelatedFileDesc] = useState("");
 
@@ -72,11 +79,18 @@ function Questions() {
     CREATE_RELATED_FILE({
       token: token,
       docTitleId: questionId,
-      description: relatedFileDesc,
-      fileName: relatedFileTitle,
+      description: addRelatedFileModal.description,
+      fileName: addRelatedFileModal.fileName,
       onSuccess: onSuccess,
       onFail: onFail,
     });
+  }
+
+  const handleOpenAddRelatedFileModal = () => {
+    setAddRelatedFileModal({
+      ...addRelatedFileModal,
+      open: !addRelatedFileModal.open,
+    })
   }
 
   return (
@@ -106,11 +120,63 @@ function Questions() {
         isCloseable={true}
         backgroundColor='white'
         color={primary}
+        width={'50%'}
       >
         <Stack spacing={2}>
+          <Box display='flex' flexDirection='row'gap={2}>
+          <IButton
+            backgroundColor={Green}
+            hoverColor={GreenLight}
+            fun={() => {
+              handleOpenAddRelatedFileModal();
+            }}
+          >
+            <AddCircleRounded
+              sx={{
+                color: "white",
+              }}
+            />
+          </IButton>
+          </Box>
           {relatedFiles.map((file: any) => (
             <RelatedFileCard key={file.id} id={file.id} fileName={file.fileName} title={file.title} description={file.description} />
           ))}
+        </Stack>
+      </NewModal>
+
+      <NewModal
+        open={RelateModal}
+        changeModal={changeModal}
+        name='افزودن فایل مرتبط'
+        isCloseable={true}
+        backgroundColor='white'
+        color={primary}
+        width={'50%'}
+      >
+        <Stack spacing={2}>
+          <TextInput
+            value={relatedFileTitle}
+            getText={(e: string)=>setAddRelatedFileModal({ ...addRelatedFileModal, fileName: e})}
+            placeholder='لینک فایل'
+          />
+          <TextInput
+            value={relatedFileDesc}
+            multiline={true}
+            maxRows={4}
+            getText={(e: string)=>setAddRelatedFileModal({ ...addRelatedFileModal, description: e})}
+            placeholder='توضیحات'
+          />
+          <LinkButton
+            backgroundColor={Green}
+            hoverColor={GreenLight}
+            onClick={() => {
+              handleConnect();
+            }
+            }
+          >
+            ثبت
+          </LinkButton>
+
         </Stack>
       </NewModal>
     </Stack>
