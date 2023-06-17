@@ -90,8 +90,8 @@ function Questions() {
     setAddRelatedFileModal({
       ...addRelatedFileModal,
       open: !addRelatedFileModal.open,
-    })
-  }
+    });
+  };
 
   return (
     <Stack my={6} gap={2}>
@@ -120,68 +120,84 @@ function Questions() {
         isCloseable={true}
         backgroundColor='white'
         color={primary}
-        width={'50%'}
+        width={"50%"}
       >
         <Stack spacing={2}>
-          <Box display='flex' flexDirection='row'gap={2}>
-          <IButton
-            backgroundColor={Green}
-            hoverColor={GreenLight}
-            fun={() => {
-              handleOpenAddRelatedFileModal();
-            }}
-          >
-            <AddCircleRounded
-              sx={{
-                color: "white",
+          <Box display='flex' flexDirection='row' gap={2}>
+            <IButton
+              backgroundColor={Green}
+              hoverColor={GreenLight}
+              fun={() => {
+                handleOpenAddRelatedFileModal();
               }}
-            />
-          </IButton>
+            >
+              <AddCircleRounded
+                sx={{
+                  color: "white",
+                }}
+              />
+            </IButton>
           </Box>
           {relatedFiles.map((file: any) => (
-            <RelatedFileCard key={file.id} id={file.id} fileName={file.fileName} title={file.title} description={file.description} />
+            <RelatedFileCard
+              key={file.id}
+              id={file.id}
+              fileName={file.fileName}
+              title={file.title}
+              description={file.description}
+            />
           ))}
         </Stack>
       </NewModal>
 
       <NewModal
         open={addRelatedFileModal.open}
-        changeModal={()=>{
+        changeModal={() => {
           setAddRelatedFileModal({
             ...addRelatedFileModal,
             open: !addRelatedFileModal.open,
-          })
+          });
         }}
         name='افزودن فایل مرتبط'
         isCloseable={true}
         backgroundColor='white'
         color={primary}
-        width={'50%'}
+        width={"50%"}
       >
         <Stack spacing={2}>
-          <TextInput
-            value={relatedFileTitle}
-            getText={(e: string)=>setAddRelatedFileModal({ ...addRelatedFileModal, fileName: e})}
-            placeholder='لینک فایل'
-          />
-          <TextInput
-            value={relatedFileDesc}
-            multiline={true}
-            maxRows={4}
-            getText={(e: string)=>setAddRelatedFileModal({ ...addRelatedFileModal, description: e})}
-            placeholder='توضیحات'
-          />
+          <Box display='flex' flexDirection='row' gap={2}>
+            <TextInput
+              value={relatedFileTitle}
+              getText={(e: string) =>
+                setAddRelatedFileModal({
+                  ...addRelatedFileModal,
+                  fileName: e,
+                })
+              }
+              placeholder='لینک فایل'
+            />
+            <TextInput
+              value={relatedFileDesc}
+              multiline={true}
+              maxRows={4}
+              getText={(e: string) =>
+                setAddRelatedFileModal({
+                  ...addRelatedFileModal,
+                  description: e,
+                })
+              }
+              placeholder='توضیحات'
+            />
+          </Box>
           <LinkButton
             backgroundColor={Green}
             hoverColor={GreenLight}
             onClick={() => {
               handleConnect();
-            }
-            }
+            }}
           >
             ثبت
           </LinkButton>
-
         </Stack>
       </NewModal>
     </Stack>
