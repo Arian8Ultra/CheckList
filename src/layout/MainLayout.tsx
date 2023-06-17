@@ -340,6 +340,7 @@ function MainLayout() {
           <TextInput
             label='رمزعبور فعلی'
             type='password'
+            width={"100%"}
             value={changePasswordModal.oldPassword}
             error={changePasswordModal.oldPasswordError}
             getText={(e: any) =>
@@ -352,6 +353,7 @@ function MainLayout() {
           <TextInput
             label='رمزعبور جدید'
             type='password'
+            width={"100%"}
             value={changePasswordModal.newPassword}
             error={changePasswordModal.newPasswordError}
             helperText={changePasswordModal.newPasswordHelperText}
@@ -365,6 +367,7 @@ function MainLayout() {
           <TextInput
             label='تکرار رمزعبور جدید'
             type='password'
+            width={"100%"}
             value={changePasswordModal.newPasswordConfirm}
             error={changePasswordModal.newPasswordConfirmError}
             helperText={
