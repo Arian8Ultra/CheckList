@@ -101,9 +101,11 @@ export const CHANGE_PASSWORD = ({
     .request(options)
     .then(function (response) {
       console.log(response.data);
-      response.data.result && onSuccess
+      response.data.succeeded
+      ? onSuccess
         ? onSuccess(response.data)
-        : () => { };
+        : () => { }:
+        onFail ? onFail(response.errors) : () => { };
       return response.data;
     })
     .catch(function (error) {
