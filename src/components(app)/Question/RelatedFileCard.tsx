@@ -49,7 +49,7 @@ const RelatedFileCard = (props: Props) => {
       <AccordionSummary expandIcon={<ExpandMoreRounded />}>
         <Box
           display={"grid"}
-          gridTemplateColumns={"repeat(4, 1fr)"}
+          gridTemplateColumns={"repeat(3, 1fr)"}
           gap={4}
           justifyContent={"center"}
           alignItems={"center"}
@@ -71,7 +71,7 @@ const RelatedFileCard = (props: Props) => {
           >
             {props.id}
           </Typography>
-          <Typography
+          {/* <Typography
             variant={"body1"}
             sx={{
               color: "#000",
@@ -81,7 +81,7 @@ const RelatedFileCard = (props: Props) => {
             }}
           >
             {props.title}
-          </Typography>
+          </Typography> */}
 
           <Typography
             variant={"body1"}

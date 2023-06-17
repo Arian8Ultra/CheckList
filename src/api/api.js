@@ -2,8 +2,10 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 // @ts-nocheck
 import axios from "axios";
-const API_URL = "http://172.16.23.50:8050/api";
-const FMURL = "http://172.16.23.50:8080";
+// const API_URL = "http://172.16.23.50:8050/api";
+const API_URL = "http://172.17.139.8:8080/api";
+const FMURL = "http://172.17.139.3:8080";
+// const FMURL = "http://172.16.23.50:8080";
 
 export const SIGNIN = ({ username, password, onSuccess, onFail }) => {
   const options = {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   CREATE_RELATED_FILE,
   GET_RELATED_FILES,
@@ -29,7 +29,7 @@ function Questions() {
     description: "",
     fileName: "",
   });
-
+  const navigate = useNavigate();
   const [relatedFileDesc, setRelatedFileDesc] = useState("");
 
   const changePageName = useLayoutStore(
@@ -109,7 +109,9 @@ function Questions() {
         gap={5}
         width={"100%"}
       >
-        <LinkButton link='-1'>تایید و بازگشت</LinkButton>
+        <LinkButton onClick={()=>{
+          navigate(-1)
+        }}>تایید و بازگشت</LinkButton>
         <LinkButton onClick={changeModal}>فایل های مرتبط</LinkButton>
       </Box>
 
