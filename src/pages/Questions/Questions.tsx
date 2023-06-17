@@ -145,8 +145,13 @@ function Questions() {
       </NewModal>
 
       <NewModal
-        open={RelateModal}
-        changeModal={changeModal}
+        open={addRelatedFileModal.open}
+        changeModal={()=>{
+          setAddRelatedFileModal({
+            ...addRelatedFileModal,
+            open: !addRelatedFileModal.open,
+          })
+        }}
         name='افزودن فایل مرتبط'
         isCloseable={true}
         backgroundColor='white'
