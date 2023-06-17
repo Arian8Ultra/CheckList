@@ -104,6 +104,7 @@ function MainLayout() {
           open: false,
         });
         alert("رمز عبور با موفقیت تغییر کرد");
+        window.location.reload()
       }
     })
   };
