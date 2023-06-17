@@ -1,23 +1,20 @@
-import { Form } from "react-router-dom";
-import TextInput from "../../../components/TextInput";
-import { Stack, Typography } from "@mui/material";
-import LinkButton from "../../../components/LinkButton";
-import { Center, Image } from "@chakra-ui/react";
-import logo from "../../../assets/logo.svg";
-import { useEffect, useState } from "react";
+import { Center } from "@chakra-ui/react";
 import {
   VisibilityOffRounded,
   VisibilityRounded,
 } from "@mui/icons-material";
-import {
-  Red,
-  primary,
-  primaryLightTransparent,
-  secondary,
-} from "../../../theme/Colors";
+import { LinearProgress, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Form } from "react-router-dom";
 import { SIGNIN } from "../../../api/api";
+import LinkButton from "../../../components/LinkButton";
+import TextInput from "../../../components/TextInput";
 import { usePersistStore } from "../../../stores/PersistStore";
 import useAbilityStore from "../../../stores/abilityStore";
+import {
+  Red,
+  primary
+} from "../../../theme/Colors";
 
 const SignIn = () => {
   const [userName, setUserName] = useState("");
@@ -26,9 +23,6 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const setUser = usePersistStore((state) => state.setUser);
-  const firstName = usePersistStore((state) => state.firstName);
-  const lastName = usePersistStore((state) => state.lastName);
-  const token = usePersistStore((state) => state.token);
   const addAbilityArray = useAbilityStore((state) => state.addAbilityArray);
 
   const handleSignIn = () => {
@@ -51,6 +45,12 @@ const SignIn = () => {
     });
     // setUser('آرین','رضایی','123456789')
   };
+
+  useEffect(() => {
+    document.title = "ورود";
+  },[])
+
+  
 
   useEffect(() => {
     error && setTimeout(() => setError(false), 3000);
@@ -111,7 +111,16 @@ const SignIn = () => {
         >
           ورود
         </LinkButton>
-        <LinkButton
+        <LinearProgress
+          sx={{
+            width: "100%",
+            height: "0.5rem",
+            borderRadius: "0.5rem",
+            backgroundColor: "transparent",
+            display: loading ? "block" : "none",
+          }}    
+        />
+        {/* <LinkButton
           backgroundColor="transparent"
           textColor={error ? Red : primary}
           width={"100%"}
@@ -119,7 +128,7 @@ const SignIn = () => {
           link="/signup"
         >
           ثبت نام
-        </LinkButton>
+        </LinkButton> */}
       </Stack>
     </Form>
   );

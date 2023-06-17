@@ -1,27 +1,23 @@
-import { Center, Image } from "@chakra-ui/react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Center } from "@chakra-ui/react";
 import {
   AccountCircleRounded,
-  ArrowBack,
-  ArrowBackIosRounded,
-  ArrowCircleLeftRounded,
-  ArrowCircleRightTwoTone,
+  ArrowCircleLeftRounded
 } from "@mui/icons-material";
 import { Box, IconButton, Stack, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import headerImage from "../assets/header.svg";
 import mainLayoutBackground from "../assets/wave-background.svg";
 import { usePersistStore } from "../stores/PersistStore";
+import useAbilityStore from "../stores/abilityStore";
 import useLayoutStore from "../stores/layoutStore";
 import {
   GlassBackground,
-  onPrimary,
   primary,
   primaryLight,
-  secondary,
+  secondary
 } from "../theme/Colors";
 import { borderRadiuos } from "../theme/Themes";
-import { useEffect } from "react";
-import useAbilityStore from "../stores/abilityStore";
 
 function MainLayout() {
   let pageName = useLayoutStore((state) => state.pageName);
@@ -39,7 +35,7 @@ function MainLayout() {
     if(!token){
       clearAbilities()
       logout()
-    };
+    }
   }, [token, logout]);
   return (
     <Box
