@@ -74,6 +74,45 @@ export const SIGNUP = ({
     });
 };
 
+
+
+export const CHANGE_PASSWORD = ({
+  userId,
+  token,
+  previousPassword,
+  newPassword,
+  confirmPassword,
+  onSuccess,
+  onFail,
+})=>{
+  const options = {
+    method: "POST",
+    url: API_URL + "/Account/ChangePassword",
+    headers: { token: token },
+    data: {
+      userId: userId,
+      previousPassword: previousPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    },
+  };
+
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+      response.data.result && onSuccess
+        ? onSuccess(response.data)
+        : () => { };
+      return response.data;
+    })
+    .catch(function (error) {
+      onFail ? onFail(error) : () => { };
+      console.error(error);
+    });
+
+}
+
 ////////////////////////////// SHEETs //////////////////////////////
 
 export const GET_SHEETS = ({
