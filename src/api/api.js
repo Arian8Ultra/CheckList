@@ -148,6 +148,44 @@ export const GET_SHEETS = ({
     });
 };
 
+export const GET_SHEETS_SEARCH = ({
+  token,
+  search,
+  setArray,
+  onSuccess,
+  onFail,
+  signOut,
+}) => {
+  const options = {
+    method: "GET",
+    url: API_URL + "/DocTitle/GetAllSearch",
+    headers: { token: token },
+    params: {
+      condition: search,
+    },
+  };
+  console.log(options);
+  axios
+    .request(options)
+    .then(function (response) {
+      console.log(response.data);
+      if (response.data != "Can't authenticate user!") {
+        onSuccess != "" ? onSuccess(response.data.result) : {};
+        setArray(response.data.result);
+        console.log(response);
+        return response.data.result;
+      } else {
+        signOut();
+      }
+      return response.data;
+    })
+    .catch(function (error) {
+      onFail ? onFail(error) : () => { };
+      console.error(error);
+    });
+}
+
+
 export const CREATE_SHEET = ({ content, onSuccess, onFail }) => {
   const options = {
     method: "POST",
