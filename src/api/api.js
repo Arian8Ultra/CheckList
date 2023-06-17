@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-empty-function */
 // @ts-nocheck
 import axios from "axios";
 const API_URL = "http://172.16.23.50:8050/api";
@@ -20,14 +22,14 @@ export const SIGNIN = ({ username, password, onSuccess, onFail }) => {
       response.data.result
         ? onSuccess
           ? onSuccess(response.data.result)
-          : () => {}
+          : () => { }
         : onFail
-        ? onFail(response.data)
-        : () => {};
+          ? onFail(response.data)
+          : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -61,11 +63,11 @@ export const SIGNUP = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -100,7 +102,7 @@ export const GET_SHEETS = ({
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -120,11 +122,11 @@ export const CREATE_SHEET = ({ content, onSuccess, onFail }) => {
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -145,11 +147,11 @@ export const UPDATE_SHEET = ({ id, content, onSuccess, onFail }) => {
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -169,11 +171,11 @@ export const DELETE_SHEET = ({ id, onSuccess, onFail }) => {
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -207,7 +209,7 @@ export const GET_TITLES = ({
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -235,11 +237,11 @@ export const CREATE_TITLE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -258,7 +260,7 @@ export const UPDATE_TITLE = ({
     data: {
       id: id,
       content: content,
-      docTitleId:docTitleId
+      docTitleId: docTitleId
     },
     headers: { token: token },
   };
@@ -269,11 +271,11 @@ export const UPDATE_TITLE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -294,11 +296,11 @@ export const DELETE_TITLE = ({ id, token, onSuccess, onFail }) => {
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -332,7 +334,7 @@ export const GET_SUBTITLES = ({
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -360,11 +362,11 @@ export const CREATE_SUBTITLE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -383,7 +385,7 @@ export const UPDATE_SUBTITLE = ({
     data: {
       id: id,
       content: content,
-      titleId:titleId
+      titleId: titleId
     },
     headers: { token: token },
   };
@@ -394,23 +396,23 @@ export const UPDATE_SUBTITLE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
 
-export const DELETE_SUBTITLE = ({ id,content, titleId, token, onSuccess, onFail }) => {
+export const DELETE_SUBTITLE = ({ id, content, titleId, token, onSuccess, onFail }) => {
   const options = {
     method: "POST",
     url: API_URL + "/Subtitle/Delete",
     data: {
       id: id,
       content: content,
-      titleId:titleId
+      titleId: titleId
     },
     headers: { token: token },
   };
@@ -423,11 +425,11 @@ export const DELETE_SUBTITLE = ({ id,content, titleId, token, onSuccess, onFail 
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -461,7 +463,7 @@ export const GET_QUESTIONS = ({
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -489,11 +491,11 @@ export const CREATE_QUESTION = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -525,16 +527,16 @@ export const UPDATE_QUESTION = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
 
-export const DELETE_QUESTION = ({ id,subtitleId,content, token, onSuccess, onFail }) => {
+export const DELETE_QUESTION = ({ id, subtitleId, content, token, onSuccess, onFail }) => {
   const options = {
     method: "POST",
     url: API_URL + "/Question/Delete",
@@ -552,11 +554,11 @@ export const DELETE_QUESTION = ({ id,subtitleId,content, token, onSuccess, onFai
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -583,11 +585,11 @@ export const GET_ANSWERS_BY_QUESTION_AND_USER = ({
       // console.log(response.data);
       response.data != "Can't authenticate user!" && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -619,11 +621,11 @@ export const CREATE_ANSWER = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -655,11 +657,11 @@ export const UPDATE_ANSWER = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -680,11 +682,11 @@ export const DELETE_ANSWER = ({ id, token, onSuccess, onFail }) => {
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -696,6 +698,7 @@ export const GET_RELATED_FILES = ({
   token,
   onSuccess,
   onFail,
+  setArray,
 }) => {
   const options = {
     method: "GET",
@@ -710,11 +713,13 @@ export const GET_RELATED_FILES = ({
       console.log(response.data);
       response.data != "Can't authenticate user!" && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => {
+        };
+      setArray(response.data.result);
       return response.data;
     })
     .catch(function (error) {
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
       console.error(error);
     });
 };
@@ -744,12 +749,12 @@ export const CREATE_RELATED_FILE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
       console.log(error);
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
     });
 };
 
@@ -778,12 +783,12 @@ export const UPDATE_RELATED_FILE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
       console.log(error);
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
     });
 };
 
@@ -808,12 +813,12 @@ export const DELETE_RELATED_FILE = ({
       console.log(response.data);
       response.data.result && onSuccess
         ? onSuccess(response.data)
-        : () => {};
+        : () => { };
       return response.data;
     })
     .catch(function (error) {
       console.log(error);
-      onFail ? onFail(error) : () => {};
+      onFail ? onFail(error) : () => { };
     });
 };
 
@@ -870,7 +875,7 @@ export function GetFilesBytFileName({
 }) {
   const options = {
     method: "GET",
-    url: apiURL + "/api/File/GetByName",
+    url: FMURL + "/api/File/GetByName",
     params: { name: fileName },
     headers: {
       token: token,

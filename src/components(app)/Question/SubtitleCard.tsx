@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
 import CAN from "../../components/CAN";
 import { Box, Text } from "@chakra-ui/react";
@@ -69,8 +71,8 @@ const SubtitleCard = (props: SubtitleCardProps) => {
   }, []);
 
   const handleEditClick = ({ id, value }: any) => {
-    let Id = id ? id : "";
-    let Value = value ? value : "";
+    const Id = id ? id : "";
+    const Value = value ? value : "";
     setEditModalOpen({
       open: true,
       id: Id,

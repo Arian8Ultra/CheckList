@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
