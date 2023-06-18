@@ -188,13 +188,14 @@ export const GET_SHEETS_SEARCH = ({
 }
 
 
-export const CREATE_SHEET = ({ content, onSuccess, onFail }) => {
+export const CREATE_SHEET = ({token, content, onSuccess, onFail }) => {
   const options = {
     method: "POST",
     url: API_URL + "/DocTitle/Create",
     data: {
       content: content,
     },
+    headers: { token: token },
   };
 
   axios
@@ -212,7 +213,7 @@ export const CREATE_SHEET = ({ content, onSuccess, onFail }) => {
     });
 };
 
-export const UPDATE_SHEET = ({ id, content, onSuccess, onFail }) => {
+export const UPDATE_SHEET = ({token, id, content, onSuccess, onFail }) => {
   const options = {
     method: "POST",
     url: API_URL + "/DocTitle/Update",
@@ -220,6 +221,7 @@ export const UPDATE_SHEET = ({ id, content, onSuccess, onFail }) => {
       id: id,
       content: content,
     },
+    headers: { token: token },
   };
 
   axios
@@ -237,14 +239,20 @@ export const UPDATE_SHEET = ({ id, content, onSuccess, onFail }) => {
     });
 };
 
-export const DELETE_SHEET = ({ id, onSuccess, onFail }) => {
+export const DELETE_SHEET = ({token, id, onSuccess, onFail }) => {
   const options = {
     method: "POST",
     url: API_URL + "/DocTitle/DeleteById",
+    params: {
+      id: id,
+    },
     data: {
       id: id,
     },
+    headers: { token: token },
   };
+
+  console.log(options);
 
   axios
     .request(options)
@@ -367,6 +375,9 @@ export const DELETE_TITLE = ({ id, token, onSuccess, onFail }) => {
     url: API_URL + "/Title/DeleteById",
     data: {
       id: id,
+    },
+    params:{
+      id:id
     },
     headers: { token: token },
   };

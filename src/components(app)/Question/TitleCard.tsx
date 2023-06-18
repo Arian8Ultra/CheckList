@@ -124,7 +124,7 @@ const TitleCard = (props: TitleCardProps) => {
       token: token,
       onFail: () => {},
       onSuccess: () => {
-        handleChangeModal();
+        // handleChangeModal();
         window.location.reload();
       },
     });
