@@ -191,7 +191,7 @@ function SheetCard(props: SheetCardProps) {
         backgroundColor="white"
         color={primary}
       >
-        <Stack spacing={2}>
+        <Stack spacing={20} width={'100%'}>
           <Text>تیتر مورد نظر خود را وارد نمایید</Text>
           <TextInput
             value={editModal.value}
@@ -199,6 +199,7 @@ function SheetCard(props: SheetCardProps) {
             fullWidth={true}
             label="سر تیتر"
             getText={setEditModelText}
+            multiline={true}
           />
           <LinkButton onClick={handleEditAccept}>ثبت</LinkButton>
         </Stack>

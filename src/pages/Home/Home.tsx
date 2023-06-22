@@ -95,12 +95,19 @@ const Home = () => {
     });
   };
 
+
+  useEffect(()=>{
+    document.title="صفحه اصلی | سامانه چک لیست"
+  },[])
+
   return (
     <Stack my={6} gap={2}>
       <TextInput
         width={"100%"}
         id="search-input"
         label="جستجو"
+        autoComplete="search-input"
+        type="string"
         getText={handleSearch}
       />
       <CAN permissionNeeded="edit">
