@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { onSecondary, secondary } from "../theme/Colors";
 
 interface IButtonProps {
+  title?: string;
   text?: string;
   link?: string;
   pageTitle?: string;
@@ -75,6 +76,7 @@ export default function IButton(props: IButtonProps) {
 
   return (
     <IconButton
+    title={props.title}
     aria-label={props.label}
       sx={{
         "width": width,

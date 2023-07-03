@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Box, Stack, Text } from "@chakra-ui/react";
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
@@ -77,8 +78,8 @@ function SheetCard(props: SheetCardProps) {
   };
 
   const handleEditClick = ({ id, value }: any) => {
-    let Id = id ? id : "";
-    let Value = value ? value : "";
+    const Id = id ? id : "";
+    const Value = value ? value : "";
     setEditModalOpen({
       open: true,
       id: Id,

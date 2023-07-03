@@ -32,17 +32,45 @@ import {
 } from "@mui/icons-material";
 import NewModal from "../../components/Modals";
 import LinkButton from "../../components/LinkButton";
+import ProjectsList from "../../components(app)/Projects/ProjectsList";
+import { usePersistStore } from "../../stores/PersistStore";
+import { useMutation } from "@apollo/client";
+import { CREATE_PROJECT } from "../../GraphQL/MutationsProjects";
 
 const Home = () => {
+  const currentUserId = usePersistStore((state) => state.id);
   const token = sessionStorage.getItem("token");
   const [DocTitles, setDocTitles] = useState([]);
+  const [refetch, setRefetch] = useState(false);
   const [addModal, setAddModal] = useState({
     open: false,
     title: "",
+    contractNumber: "",
   });
   const changePageName = useLayoutStore(
     (state) => state.changePageName
   );
+  const [addProject] = useMutation(CREATE_PROJECT, {
+    variables: {
+      title: addModal.title,
+      contractNumber: addModal.contractNumber,
+      userId: currentUserId,
+    },
+    onCompleted(data, clientOptions) {
+      console.log(data);
+      setRefetch(!refetch);
+      setAddModal({
+        ...addModal,
+        open: false,
+        title: "",
+        contractNumber: "",
+      });
+    },
+    onError(error, clientOptions) {
+      console.log(error);
+      setRefetch(!refetch);
+    },
+  });
   useEffect(() => {
     GET_SHEETS({
       signOut: () => {},
@@ -95,10 +123,9 @@ const Home = () => {
     });
   };
 
-
-  useEffect(()=>{
-    document.title="صفحه اصلی | سامانه چک لیست"
-  },[])
+  useEffect(() => {
+    document.title = "صفحه اصلی | سامانه چک لیست";
+  }, []);
 
   return (
     <Stack my={6} gap={2}>
@@ -110,7 +137,7 @@ const Home = () => {
         type="string"
         getText={handleSearch}
       />
-      <CAN permissionNeeded="edit">
+      <CAN permissionNeeded="ADMIN">
         <Box
           display={"flex"}
           gap={2}
@@ -119,6 +146,7 @@ const Home = () => {
           gridRow={1}
         >
           <IButton
+            title="افزودن پروژه"
             backgroundColor={Green}
             hoverColor={GreenLight}
             fun={() => {
@@ -133,19 +161,7 @@ const Home = () => {
           </IButton>
         </Box>
       </CAN>
-      {DocTitles.map((item: any) => {
-        if (!item.isDeleted) {
-          return (
-            <SheetCard
-              key={item.id}
-              id={item.id}
-              title={item.content}
-              date={item.createdOn}
-              isAnswered={item.isAnswered}
-            />
-          );
-        }
-      })}
+      <ProjectsList refetch={refetch} />
       <NewModal
         open={addModal.open}
         changeModal={handleChangeAddModal}
@@ -154,13 +170,12 @@ const Home = () => {
         backgroundColor="white"
         color={primary}
       >
-        <Stack spacing={2}>
-          <Text>تیتر مورد نظر خود را وارد نمایید</Text>
+        <Stack spacing={2} width={"100%"}>
           <TextInput
             value={addModal.title}
             width={"100%"}
             fullWidth={true}
-            label="تیتر"
+            label="عنوان پروژه"
             getText={(e: string) => {
               setAddModal({
                 ...addModal,
@@ -168,7 +183,19 @@ const Home = () => {
               });
             }}
           />
-          <LinkButton onClick={handleAdd}>ثبت</LinkButton>
+          <TextInput
+            value={addModal.contractNumber}
+            width={"100%"}
+            fullWidth={true}
+            label="شماره قرارداد"
+            getText={(e: string) => {
+              setAddModal({
+                ...addModal,
+                contractNumber: e,
+              });
+            }}
+          />
+          <LinkButton onClick={addProject}>ثبت</LinkButton>
         </Stack>
       </NewModal>
     </Stack>

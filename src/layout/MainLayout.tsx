@@ -31,6 +31,7 @@ import TextInput from "../components/TextInput";
 import LinkButton from "../components/LinkButton";
 import { CHANGE_PASSWORD } from "../api/api";
 import CAN from "../components/CAN";
+import { convertRoleToPersian } from "../functions/function";
 
 function MainLayout() {
   let pageName = useLayoutStore((state) => state.pageName);
@@ -43,7 +44,7 @@ function MainLayout() {
   // const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   let role = usePersistStore((state) => state.role);
-  role = role === "ADMIN" ? "مدیر" : "کاربر";
+  role = convertRoleToPersian(role)
   pageName = pageName ? pageName : "صفحه اصلی";
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [changePasswordModal, setChangePasswordModal] = useState({
@@ -151,10 +152,6 @@ function MainLayout() {
           backgroundPosition: "start 100%",
           borderRadius: borderRadiuos,
           border: "1px solid #E0E0E0",
-          // position: "absolute",
-          // top: "10%",
-          // left: "50%",
-          // transform: "translate(-50%, -0%)",
         }}
       >
         <Box

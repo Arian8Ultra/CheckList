@@ -8,6 +8,7 @@ import { usePersistStore } from "../stores/PersistStore";
 import { GET_SHEETS } from "../api/api";
 import Questions from "../pages/Questions/Questions";
 import Error from "../pages/Error/Error";
+import Projects from "../pages/Projects/Project";
 
 const token = sessionStorage.getItem('token');
 const router = createBrowserRouter(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       </Route>
       <Route path='home' element={<MainLayout/>} >
         <Route path='' element={<Home/>}/>
+        <Route path='project/:projectId' element={<Projects/>}/>
         <Route path='questions/:questionId' element={<Questions/>}/>
       </Route>
     </Route>,

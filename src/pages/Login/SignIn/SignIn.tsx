@@ -11,10 +11,9 @@ import LinkButton from "../../../components/LinkButton";
 import TextInput from "../../../components/TextInput";
 import { usePersistStore } from "../../../stores/PersistStore";
 import useAbilityStore from "../../../stores/abilityStore";
-import {
-  Red,
-  primary
-} from "../../../theme/Colors";
+import { Red, primary } from "../../../theme/Colors";
+import { useMutation } from "@apollo/client";
+import { LOGIN_USER } from "../../../GraphQL/MutationsUsers";
 
 const SignIn = () => {
   const [userName, setUserName] = useState("");
@@ -23,34 +22,46 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const setUser = usePersistStore((state) => state.setUser);
-  const addAbilityArray = useAbilityStore((state) => state.addAbilityArray);
+  const addAbilityArray = useAbilityStore(
+    (state) => state.addAbilityArray
+  );
+
+  const [
+    userLogin,
+    { loading: userLoginLoading, error: userLoginError },
+  ] = useMutation(LOGIN_USER, {
+    variables: {
+      userName: userName,
+      password: password,
+    },
+    onCompleted(data, clientOptions) {
+      console.log(data);
+      addAbilityArray([data.user_signIn.result.user.userCurrentRole]);
+      setUser(
+        data.user_signIn.result.user.firstName,
+        data.user_signIn.result.user.lastName,
+        data.user_signIn.result.token,
+        data.user_signIn.result.user.userCurrentRole,
+        data.user_signIn.result.user.id
+      );
+      setLoading(false);
+    },
+    onError(error, clientOptions) {
+      console.log(error);
+      setLoading(false);
+      setError(true);
+    },
+  });
 
   const handleSignIn = () => {
     setLoading(true);
     setError(false);
-    SIGNIN({
-      username: userName,
-      password: password,
-      onSuccess: (res: any) => {
-        console.log(res);
-        addAbilityArray([res.role.normalizedName]);
-        setUser(res.firstName, res.lastName, res.token, res.role.normalizedName, res.userId);
-        setLoading(false);
-      },
-      onFail: (err: any) => {
-        console.error(err);
-        setLoading(false);
-        setError(true);
-      },
-    });
-    // setUser('آرین','رضایی','123456789')
+    userLogin()
   };
 
   useEffect(() => {
     document.title = "ورود";
-  },[])
-
-  
+  }, []);
 
   useEffect(() => {
     error && setTimeout(() => setError(false), 3000);
@@ -118,7 +129,7 @@ const SignIn = () => {
             borderRadius: "0.5rem",
             backgroundColor: "transparent",
             display: loading ? "block" : "none",
-          }}    
+          }}
         />
         {/* <LinkButton
           backgroundColor="transparent"

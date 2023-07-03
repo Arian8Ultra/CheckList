@@ -3,7 +3,7 @@ import { Box } from "@mui/system";
 import useAbilityStore from "../stores/abilityStore";
 interface CANProps {
   children: React.ReactNode;
-  permissionNeeded: string;
+  permissionNeeded?: string|null;
   display?: string;
 }
 
@@ -16,7 +16,7 @@ export default function CAN(props: CANProps) {
     if (
       abilities.includes(permissionNeeded) ||
       permissionNeeded == null ||
-      abilities.includes("ADMIN")
+      abilities.includes("SUPER_ADMIN")
     ) {
       return "visible";
     }
@@ -26,7 +26,7 @@ export default function CAN(props: CANProps) {
     if (
       abilities.includes(permissionNeeded) ||
       permissionNeeded == null ||
-      abilities.includes("ADMIN")
+      abilities.includes("SUPER_ADMIN")
     ) {
       return {};
     }
@@ -36,7 +36,7 @@ export default function CAN(props: CANProps) {
     if (
       abilities.includes(permissionNeeded) ||
       permissionNeeded == null ||
-      abilities.includes("ADMIN")
+      abilities.includes("SUPER_ADMIN")
     ) {
       return {};
     }

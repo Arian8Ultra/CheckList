@@ -26,12 +26,15 @@ export const GET_FORM_OBJS = gql`
 `;
 
 export const GET_FORM_OBJ_BY_PROJECT_ID = gql`
-  query ($projectId: Int!) {
+  query GET_FORM_OBJ_BY_PROJECT_ID($projectId: Int!) {
     formObject_getFormObjects {
       result(where: { projectId: { eq: $projectId } }) {
         items {
           projectId
           parentId
+          content
+          formObjectType
+          id
           userAnswers {
             answerType
             formObjectId
@@ -46,6 +49,54 @@ export const GET_FORM_OBJ_BY_PROJECT_ID = gql`
         }
       }
       status
+    }
+  }
+`;
+
+export const GET_FORM_OBJ_BY_PARENT_ID = gql`
+  query GET_FORM_OBJ_BY_PARENT_ID($parentId: Int!) {
+    formObject_getFormObjects {
+      result(where: { parentId: { eq: $parentId } }) {
+        items {
+          projectId
+          parentId
+          content
+          formObjectType
+          id
+          userAnswers {
+            answerType
+            formObjectId
+            id
+          }
+          childFormObjects {
+            projectId
+            content
+            formObjectType
+            parentId
+          }
+        }
+      }
+      status
+    }
+  }
+`;
+
+export const GET_FORM_OBJ_BY_ID = gql`
+  query GET_FORM_OBJ_BY_ID($id: Int!) {
+    formObject_getFormObject(entityId: $id) {
+      result {
+        projectId
+        content
+        formObjectType
+        id
+        childFormObjects {
+          projectId
+          content
+          formObjectType
+          parentId
+          id
+        }
+      }
     }
   }
 `;
