@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useState } from "react";
 import {
   CardBackground,
@@ -8,7 +8,7 @@ import {
   primaryLight,
   textPrimary,
 } from "../../theme/Colors";
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import CAN from "../../components/CAN";
 import IButton from "../../components/IButton";
@@ -88,7 +88,12 @@ const ProjectCard = (props: IProjectCardProps) => {
   return (
     <Box
       display={"grid"}
-      gridTemplateColumns={"1fr 1fr auto"}
+      gridTemplateColumns={{
+        xs: "1fr",
+        sm: "1fr",
+        md: "1fr 1fr auto",
+        lg: "1fr 1fr auto",
+      }}
       gap={4}
       justifyContent={"center"}
       alignItems={"center"}
@@ -105,18 +110,23 @@ const ProjectCard = (props: IProjectCardProps) => {
     >
       <Box
         display={"flex"}
-        justifyContent={"flex-start"}
-        alignItems={"center"}
-        // bgColor={'red'}
-        height={"100%"}
-        _hover={{
-          cursor: "pointer",
+        justifyContent={{
+          xs: "center",
+          sm: "center",
+          md: "flex-start",
         }}
+        alignItems={"center"}
+        height={"100%"}
         onClick={() =>
           nav(`/home/project/${props.id}`, {
             state: { title: props.title },
           })
         }
+        sx={{
+          "&:hover": {
+            cursor: "pointer",
+          },
+        }}
       >
         <Typography
           sx={{
@@ -134,8 +144,10 @@ const ProjectCard = (props: IProjectCardProps) => {
         alignItems={"center"}
         // bgColor={'red'}
         height={"100%"}
-        _hover={{
-          cursor: "pointer",
+        sx={{
+          "&:hover": {
+            cursor: "pointer",
+          },
         }}
         onClick={() =>
           nav(`/home/project/${props.id}`, {
@@ -155,9 +167,13 @@ const ProjectCard = (props: IProjectCardProps) => {
       </Box>
       <Box
         display={"flex"}
-        justifyContent={"flex-end"}
+        justifyContent={{
+          xs: "center",
+          sm: "center",
+          md: "flex-end",
+        }}
         alignItems={"center"}
-        gap={10}
+        gap={2}
       >
         <CAN
           permissionNeeded={
@@ -202,7 +218,7 @@ const ProjectCard = (props: IProjectCardProps) => {
       </Box>
       <NewModal
         open={editModal.open}
-        changeModal={() => {
+        onClose={() => {
           setEditModalOpen({
             ...editModal,
             open: false,

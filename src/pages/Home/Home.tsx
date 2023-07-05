@@ -110,18 +110,6 @@ const Home = () => {
     });
   };
 
-  const handleAdd = () => {
-    console.log("add");
-    CREATE_SHEET({
-      content: addModal.title,
-      token: token,
-      onFail: () => {},
-      onSuccess: () => {
-        handleChangeAddModal();
-        window.location.reload();
-      },
-    });
-  };
 
   useEffect(() => {
     document.title = "صفحه اصلی | سامانه چک لیست";
@@ -129,14 +117,6 @@ const Home = () => {
 
   return (
     <Stack my={6} gap={2}>
-      <TextInput
-        width={"100%"}
-        id="search-input"
-        label="جستجو"
-        autoComplete="search-input"
-        type="string"
-        getText={handleSearch}
-      />
       <CAN permissionNeeded="ADMIN">
         <Box
           display={"flex"}
@@ -164,7 +144,7 @@ const Home = () => {
       <ProjectsList refetch={refetch} />
       <NewModal
         open={addModal.open}
-        changeModal={handleChangeAddModal}
+        onClose={handleChangeAddModal}
         name="افزودن "
         isCloseable={true}
         backgroundColor="white"

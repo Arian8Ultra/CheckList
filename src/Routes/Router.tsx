@@ -9,6 +9,7 @@ import { GET_SHEETS } from "../api/api";
 import Questions from "../pages/Questions/Questions";
 import Error from "../pages/Error/Error";
 import Projects from "../pages/Projects/Project";
+import UserManager from "../pages/Admin/UserManager/UserManager";
 
 const token = sessionStorage.getItem('token');
 const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const router = createBrowserRouter(
         <Route path='' element={<Home/>}/>
         <Route path='project/:projectId' element={<Projects/>}/>
         <Route path='questions/:questionId' element={<Questions/>}/>
+        <Route path='admin/users' element={<UserManager/>}/>
       </Route>
     </Route>,
   ),

@@ -48,7 +48,7 @@ function Questions() {
     open: false,
     title: "",
   });
-  const changeModal = () => {
+  const onClose = () => {
     GET_RELATED_FILES({
       token: token,
       docTitleID: questionId,
@@ -175,12 +175,12 @@ function Questions() {
         >
           تایید و بازگشت
         </LinkButton>
-        <LinkButton onClick={changeModal}>فایل های مرتبط</LinkButton>
+        <LinkButton onClick={onClose}>فایل های مرتبط</LinkButton>
       </Box>
 
       <NewModal
         open={RelateModal}
-        changeModal={changeModal}
+        onClose={onClose}
         name="فایل های مرتبط"
         isCloseable={true}
         backgroundColor="white"
@@ -217,7 +217,7 @@ function Questions() {
 
       <NewModal
         open={addRelatedFileModal.open}
-        changeModal={() => {
+        onClose={() => {
           setAddRelatedFileModal({
             ...addRelatedFileModal,
             open: !addRelatedFileModal.open,
@@ -289,7 +289,7 @@ function Questions() {
       </NewModal>
       <NewModal
         open={addModal.open}
-        changeModal={handleChangeAddModal}
+        onClose={handleChangeAddModal}
         name="افزودن "
         isCloseable={true}
         backgroundColor="white"

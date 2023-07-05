@@ -1,28 +1,94 @@
 import React, { useEffect } from "react";
-import { GET_PROJECTS } from "../../GraphQL/QueriesProjects";
-import { useQuery } from "@apollo/client";
+import {
+  GET_PROJECTS,
+  GET_PROJECTS_SEARCH,
+} from "../../GraphQL/QueriesProjects";
+import { useLazyQuery, useQuery } from "@apollo/client";
 import { Stack, Typography } from "@mui/material";
 import ProjectCard from "./ProjectCard";
 import { Box } from "@chakra-ui/react";
-import { CardBackground, textPrimary } from "../../theme/Colors";
+import {
+  CardBackground,
+  Red,
+  primary,
+  textPrimary,
+} from "../../theme/Colors";
+import TextInput from "../../components/TextInput";
+import {
+  CancelOutlined,
+  DeleteForeverRounded,
+  SearchRounded,
+} from "@mui/icons-material";
 
 interface ProjectsListProps {
   refetch?: any;
 }
-const ProjectsList = (props:ProjectsListProps) => {
-  const { data, loading, error ,refetch} = useQuery(GET_PROJECTS, {
+const ProjectsList = (props: ProjectsListProps) => {
+  const [projectData, setProjectData] = React.useState<any>([]);
+  const [search, setSearch] = React.useState("");
+  const { data, loading, error, refetch } = useQuery(GET_PROJECTS, {
     onCompleted(data) {
       console.log(data);
+      setProjectData(data);
     },
     onError(error) {
       console.log(error);
     },
   });
+
+  const [searchProjects] = useLazyQuery(GET_PROJECTS_SEARCH, {
+    onCompleted(data) {
+      console.log(data);
+      setProjectData(data);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
   useEffect(() => {
-    refetch()
-  },[props.refetch, refetch])
+    if (search !== "") {
+      searchProjects({
+        variables: {
+          search: search,
+        },
+      });
+    } else {
+      refetch();
+    }
+  }, [search]);
+
+  useEffect(() => {
+    refetch();
+  }, [props.refetch, refetch]);
   return (
     <Stack spacing={2}>
+      <TextInput
+        width={"100%"}
+        id="search-input"
+        label="جستجو"
+        autoComplete="search-input"
+        type="string"
+        getText={setSearch}
+        value={search}
+        hasIcon={true}
+        icon={
+          search !== "" ? <CancelOutlined sx={{
+            color: primary,
+          }}/> : <SearchRounded sx={{
+            color: primary,
+          }} />
+        }
+        iconClick={() => {
+          search !== ""
+            ? (setSearch(""), searchProjects({
+              variables: {
+                search: "",
+              },
+            }))
+            : console.log("search is empty");
+        }}
+      />
       <Box
         display={"grid"}
         gridTemplateColumns={"1fr 1fr auto"}
@@ -70,16 +136,18 @@ const ProjectsList = (props:ProjectsListProps) => {
           </Typography>
         </Box>
       </Box>
-      {data?.project_getProjects?.result?.items?.map((item: any) => (
-        <ProjectCard
-          id={item.id}
-          title={item.title}
-          userId={item.userId}
-          key={item.id}
-          contractNumber={item.contractNumber}
-          onDelete={refetch}
-        />
-      ))}
+      {projectData?.project_getProjects?.result?.items?.map(
+        (item: any) => (
+          <ProjectCard
+            id={item.id}
+            title={item.title}
+            userId={item.userId}
+            key={item.id}
+            contractNumber={item.contractNumber}
+            onDelete={refetch}
+          />
+        )
+      )}
     </Stack>
   );
 };
