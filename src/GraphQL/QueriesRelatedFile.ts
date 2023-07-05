@@ -1,0 +1,16 @@
+import { gql } from "@apollo/client";
+
+export const GET_RELATED_FILE_BY_PROJECT_ID = gql`
+  query relatedFile_getRelatedFileByProjectId($projectId: Int!) {
+    relatedFile_getRelatedFiles {
+      result(where: { projectId: { eq: $projectId } }) {
+        items {
+          projectId
+          fileAddress
+          id
+        }
+      }
+      status
+    }
+  }
+`;

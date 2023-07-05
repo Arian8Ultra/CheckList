@@ -23,3 +23,35 @@ export const GET_PROJECTS = gql`
     }
   }
 `;
+
+
+export const GET_PROJECTS_SEARCH = gql`
+  query projects_getProjectsSearch ($search: String, $take: Int, $skip: Int) {
+    project_getProjects{
+      result (
+        where: {
+          or: [
+            {title: {contains: $search}}
+            {contractNumber: {contains: $search}}
+          ]
+        }
+        take: $take, 
+        skip: $skip) {
+        items {
+          userId
+          title
+          id
+          contractNumber
+          formObjects{
+            id
+            content 
+          }
+        }
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+        }
+      }
+      status
+    }
+  }`
