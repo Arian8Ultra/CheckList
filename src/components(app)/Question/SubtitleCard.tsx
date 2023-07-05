@@ -245,7 +245,7 @@ const SubtitleCard = (props: SubtitleCardProps) => {
       </Stack>
       <NewModal
         open={editModal.open}
-        changeModal={handleChangeEditModal}
+        onClose={handleChangeEditModal}
         name="ویرایش"
         isCloseable={true}
         backgroundColor="white"
@@ -266,7 +266,7 @@ const SubtitleCard = (props: SubtitleCardProps) => {
 
       <NewModal
         open={addModal.open}
-        changeModal={handleChangeAddModal}
+        onClose={handleChangeAddModal}
         name="افزودن سوال"
         isCloseable={true}
         backgroundColor="white"

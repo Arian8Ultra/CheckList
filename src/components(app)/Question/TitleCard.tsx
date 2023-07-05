@@ -83,7 +83,7 @@ const TitleCard = (props: TitleCardProps) => {
     });
   };
 
-  const handleChangeModal = () => {
+  const handleonClose = () => {
     setEditModalOpen({
       open: !editModal.open,
       id: "",
@@ -107,13 +107,13 @@ const TitleCard = (props: TitleCardProps) => {
         id: editModal.id,
         docTitleId: props.docTitleId,
         onSuccess: () => {
-          handleChangeModal();
+          handleonClose();
           window.location.reload();
         },
         onFail: () => {},
       });
     else {
-      handleChangeModal();
+      handleonClose();
     }
   };
 
@@ -124,7 +124,7 @@ const TitleCard = (props: TitleCardProps) => {
       token: token,
       onFail: () => {},
       onSuccess: () => {
-        // handleChangeModal();
+        // handleonClose();
         window.location.reload();
       },
     });
@@ -253,7 +253,7 @@ const TitleCard = (props: TitleCardProps) => {
       </Stack>
       <NewModal
         open={editModal.open}
-        changeModal={handleChangeModal}
+        onClose={handleonClose}
         name="ویرایش"
         isCloseable={true}
         backgroundColor="white"
@@ -274,7 +274,7 @@ const TitleCard = (props: TitleCardProps) => {
 
       <NewModal
         open={addModal.open}
-        changeModal={handleChangeAddModal}
+        onClose={handleChangeAddModal}
         name="افزودن سوال"
         isCloseable={true}
         backgroundColor="white"

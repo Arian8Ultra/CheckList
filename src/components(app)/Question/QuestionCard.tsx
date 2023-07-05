@@ -90,7 +90,7 @@ const QuestionCard = (props: QuestionCardProps) => {
     });
   };
 
-  const handleChangeModal = () => {
+  const handleonClose = () => {
     setEditModalOpen({
       open: !editModal.open,
       id: "",
@@ -114,13 +114,13 @@ const QuestionCard = (props: QuestionCardProps) => {
         id: props.id,
         subtitleId: props.subtitleId,
         onSuccess: () => {
-          handleChangeModal();
+          handleonClose();
           window.location.reload();
         },
         onFail: () => {},
       });
     else {
-      handleChangeModal();
+      handleonClose();
     }
   };
 
@@ -133,7 +133,7 @@ const QuestionCard = (props: QuestionCardProps) => {
       subtitleId: props.subtitleId,
       onFail: () => {},
       onSuccess: () => {
-        // handleChangeModal();
+        // handleonClose();
         // window.location.reload();
       },
     });
@@ -258,7 +258,7 @@ const QuestionCard = (props: QuestionCardProps) => {
       </CAN>
       <NewModal
         open={editModal.open}
-        changeModal={handleChangeModal}
+        onClose={handleonClose}
         name="ویرایش"
         isCloseable={true}
         backgroundColor="white"

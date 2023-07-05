@@ -181,7 +181,7 @@ function SheetCard(props: SheetCardProps) {
       </Box>
       <NewModal
         open={editModal.open}
-        changeModal={() => {
+        onClose={() => {
           setEditModalOpen({
             ...editModal,
             open: false,
