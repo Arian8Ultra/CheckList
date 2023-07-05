@@ -29,9 +29,11 @@ import { borderRadiuos } from "../theme/Themes";
 import NewModal from "../components/Modals";
 import TextInput from "../components/TextInput";
 import LinkButton from "../components/LinkButton";
-import { CHANGE_PASSWORD } from "../api/api";
 import CAN from "../components/CAN";
 import { convertRoleToPersian } from "../functions/function";
+import { CHANGE_PASSWORD } from "../GraphQL/MutationsUsers";
+import { useMutation } from "@apollo/client";
+import Navbar from "../components/Navbar";
 
 function MainLayout() {
   let pageName = useLayoutStore((state) => state.pageName);
@@ -44,7 +46,7 @@ function MainLayout() {
   // const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   let role = usePersistStore((state) => state.role);
-  role = convertRoleToPersian(role)
+  role = convertRoleToPersian(role);
   pageName = pageName ? pageName : "صفحه اصلی";
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [changePasswordModal, setChangePasswordModal] = useState({
@@ -68,6 +70,39 @@ function MainLayout() {
     nationalCode: "",
     role: "",
     open: false,
+  });
+
+  const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD, {
+    variables: {
+      userId: usePersistStore((state) => state.id),
+      oldPassword: changePasswordModal.oldPassword,
+      newPassword: changePasswordModal.newPassword,
+      confirmPassword: changePasswordModal.newPasswordConfirm,
+    },
+    onCompleted: (data) => {
+      setChangePasswordModal({
+        newPassword: "",
+        newPasswordConfirm: "",
+        oldPassword: "",
+        oldPasswordError: false,
+        newPasswordConfirmError: false,
+        newPasswordConfirmHelperText: "",
+        newPasswordError: false,
+        newPasswordHelperText: "",
+        oldPasswordHelperText: "",
+        open: false,
+      });
+      alert("رمز عبور با موفقیت تغییر کرد");
+      window.location.reload();
+    },
+    onError(error, clientOptions) {
+      setChangePasswordModal({
+        ...changePasswordModal,
+        oldPasswordError: true,
+        newPasswordError: true,
+        newPasswordConfirmError: true,
+      });
+    },
   });
 
   const userId = usePersistStore((state) => state.id);
@@ -95,31 +130,6 @@ function MainLayout() {
     });
   };
 
-  const handleChangePassword = () => {
-    CHANGE_PASSWORD({
-      confirmPassword: changePasswordModal.newPasswordConfirm,
-      newPassword: changePasswordModal.newPassword,
-      previousPassword: changePasswordModal.oldPassword,
-      token: token as string,
-      userId: userId,
-      onFail: (error: any) => {
-        setChangePasswordModal({
-          ...changePasswordModal,
-          oldPasswordError: true,
-          newPasswordError: true,
-          newPasswordConfirmError: true,
-        });
-      },
-      onSuccess: () => {
-        setChangePasswordModal({
-          ...changePasswordModal,
-          open: false,
-        });
-        alert("رمز عبور با موفقیت تغییر کرد");
-        window.location.reload();
-      },
-    });
-  };
   return (
     <Box
       width={"100dvw"}
@@ -141,10 +151,28 @@ function MainLayout() {
       }}
     >
       <Box
-        width={"85%"}
+        width={{
+          xs: "100%",
+          sm: "100%",
+          md: "100%",
+          lg: "85%",
+        }}
+        marginX={"auto"}
         height={"max-content"}
-        padding={8}
-        paddingTop={0}
+        padding={{
+          xs: 0,
+          sm: 0,
+          md: 0,
+          lg: 5,
+          xl: 8
+        }}
+        paddingTop={{
+          xs: 0,
+          sm: 0,
+          md: 0,
+          lg: 0,
+          xl: 0
+        }}
         sx={{
           backgroundColor: GlassBackground,
           backdropFilter: "blur(10px)",
@@ -152,11 +180,23 @@ function MainLayout() {
           backgroundPosition: "start 100%",
           borderRadius: borderRadiuos,
           border: "1px solid #E0E0E0",
+          position: "relative",
         }}
       >
         <Box
           position={"sticky"}
-          top={10}
+          top={20}
+          display={"grid"}
+          gridTemplateColumns={{
+            xs: "1fr",
+            sm: "1fr 1fr",
+            md: "1fr 1fr",
+            lg: "1fr 1fr 1fr",
+            xl: "1fr 1fr 1fr",
+          }}
+          gap={2}
+          justifyContent={"center"}
+          alignItems={"center"}
           sx={{
             backgroundColor: primaryLight,
             padding: 2,
@@ -166,76 +206,128 @@ function MainLayout() {
             zIndex: 100,
           }}
         >
-          <Stack
-            direction={"row"}
-            justifyContent={"space-between"}
-            width={"100%"}
-            position={"relative"}
+          <Box
+            display={"flex"}
+            justifyContent={{
+              xs: "center",
+              md: "flex-start",
+            }}
+            alignItems={"center"}
           >
-            <Center>
-              <Typography
-                sx={{
-                  color: primary,
-                  fontWeight: "bold",
-                  fontSize: "x-large",
-                }}
-              >
-                {String(pageName)}
-              </Typography>
-            </Center>
-            <Center
-              position={"absolute"}
-              left={"50%"}
-              transform={"translateX(-50%) translateY(-50%)"}
-              top={"50%"}
+            <Typography
+              sx={{
+                color: primary,
+                fontWeight: "bold",
+                fontSize: "x-large",
+              }}
+            >
+              {String(pageName)}
+            </Typography>
+          </Box>
+          <Box
+            display={"flex"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Typography
+              sx={{
+                color: primary,
+                fontWeight: "bold",
+                fontSize: {
+                  xs: "medium",
+                  md: "large",
+                  lg: "x-large",
+                },
+              }}
+            >
+              سامانه چک لیست
+            </Typography>
+          </Box>
+          <Box
+            display={"grid"}
+            gridTemplateColumns={"auto auto"}
+            justifyContent={{
+              xs: "center",
+              md: "end",
+            }}
+            alignItems={"center"}
+            sx={
+              {
+                // outline: "1px solid red",
+              }
+            }
+          >
+            <Stack
+              mx={3}
+              justifyContent={"center"}
+              alignItems={"flex-end"}
+              sx={
+                {
+                  // outline: "1px solid blue",
+                }
+              }
             >
               <Typography
                 sx={{
                   color: primary,
-                  fontWeight: "bold",
-                  fontSize: "x-large",
+                  fontWeight: "normal",
+                  fontSize: {
+                    xs: "small",
+                    sm: "medium",
+                    md: "medium",
+                  },
+                  textAlign: "left",
                 }}
               >
-                سامانه چک لیست
+                {firstName} {lastName}
               </Typography>
-            </Center>
-            <Box display={"flex"} flexDirection={"row"} gap={1}>
-              <Stack mx={3}>
-                <Typography
-                  sx={{
-                    color: primary,
-                    fontWeight: "normal",
-                    fontSize: "medium",
-                    textAlign: "left",
-                  }}
-                >
-                  {firstName} {lastName}
-                </Typography>
-                <Typography
-                  sx={{
-                    color: primary,
-                    fontWeight: "normal",
-                    fontSize: "medium",
-                    textAlign: "left",
-                  }}
-                >
-                  {role}
-                </Typography>
-              </Stack>
+              <Typography
+                sx={{
+                  color: primary,
+                  fontWeight: "normal",
+                  fontSize: "medium",
+                  textAlign: "left",
+                }}
+              >
+                {role}
+              </Typography>
+            </Stack>
+            <Box
+              display={"flex"}
+              justifyContent={"flex-end"}
+              alignItems={"center"}
+              gap={1}
+            >
               <Center>
                 <IconButton
                   sx={{
                     color: secondary,
-                    width: "53px",
-                    height: "53px",
+                    width: {
+                      xs: "40px",
+                      sm: "40px",
+                      md: "53px",
+                    },
+                    height: {
+                      xs: "40px",
+                      sm: "40px",
+                      md: "53px",
+                    },
                     padding: 0,
                   }}
                   onClick={handleMenu}
                 >
                   <AccountCircleRounded
                     sx={{
-                      width: "53px",
-                      height: "53px",
+                      width: {
+                        xs: "40px",
+                        sm: "40px",
+                        md: "53px",
+                      },
+                      height: {
+                        xs: "40px",
+                        sm: "40px",
+                        md: "53px",
+                      },
                       color: primary,
                     }}
                   />
@@ -258,9 +350,18 @@ function MainLayout() {
                   <MenuItem onClick={handleChangePasswordModal}>
                     تغییر رمزعبور
                   </MenuItem>
-                  <CAN permissionNeeded="addUser">
+                  {/* <CAN permissionNeeded="addUser">
                     <MenuItem onClick={handleChangePasswordModal}>
                       افزودن کاربر
+                    </MenuItem>
+                  </CAN> */}
+                  <CAN permissionNeeded="ADMIN">
+                    <MenuItem
+                      onClick={() => {
+                        navigate("/home/admin/users");
+                      }}
+                    >
+                      مدیریت کاربران
                     </MenuItem>
                   </CAN>
                 </Menu>
@@ -270,8 +371,14 @@ function MainLayout() {
                   <IconButton
                     sx={{
                       color: secondary,
-                      width: "45px",
-                      height: "45px",
+                      width: {
+                        xs: "35px",
+                        md: "45px",
+                      },
+                      height: {
+                        xs: "35px",
+                        md: "45px",
+                      },
                       padding: 0,
                     }}
                     onClick={logout}
@@ -326,8 +433,16 @@ function MainLayout() {
                   >
                     <ArrowCircleLeftRounded
                       sx={{
-                        width: "53px",
-                        height: "53px",
+                        width: {
+                          xs: "40px",
+                          sm: "40px",
+                          md: "53px",
+                        },
+                        height: {
+                          xs: "40px",
+                          sm: "40px",
+                          md: "53px",
+                        },
                         color: primary,
                       }}
                     />
@@ -335,7 +450,7 @@ function MainLayout() {
                 )}
               </Center>
             </Box>
-          </Stack>
+          </Box>
         </Box>
         <Box padding={2}>
           <Outlet />
@@ -344,7 +459,7 @@ function MainLayout() {
 
       <NewModal
         open={changePasswordModal.open}
-        changeModal={handleChangePasswordModal}
+        onClose={handleChangePasswordModal}
         name="تغییر رمزعبور"
         isCloseable={true}
         backgroundColor="white"
@@ -396,73 +511,7 @@ function MainLayout() {
           />
 
           <LinkButton
-            onClick={handleChangePassword}
-            backgroundColor={primary}
-          >
-            تغییر رمزعبور
-          </LinkButton>
-        </Stack>
-      </NewModal>
-      <NewModal
-        open={addUserModal.open}
-        changeModal={()=>{
-          setAddUserModal({
-            ...addUserModal,
-            open:addUserModal.open?false:true
-          })
-        }}
-        name="افزودن کاربر"
-        isCloseable={true}
-        backgroundColor="white"
-        color={primary}
-      >
-        <Stack spacing={2} padding={2} width={"100%"}>
-          <TextInput
-            label="رمزعبور فعلی"
-            type="password"
-            width={"100%"}
-            value={changePasswordModal.oldPassword}
-            error={changePasswordModal.oldPasswordError}
-            getText={(e: any) =>
-              setChangePasswordModal({
-                ...changePasswordModal,
-                oldPassword: e,
-              })
-            }
-          />
-          <TextInput
-            label="رمزعبور جدید"
-            type="password"
-            width={"100%"}
-            value={changePasswordModal.newPassword}
-            error={changePasswordModal.newPasswordError}
-            helperText={changePasswordModal.newPasswordHelperText}
-            getText={(e: any) =>
-              setChangePasswordModal({
-                ...changePasswordModal,
-                newPassword: e,
-              })
-            }
-          />
-          <TextInput
-            label="تکرار رمزعبور جدید"
-            type="password"
-            width={"100%"}
-            value={changePasswordModal.newPasswordConfirm}
-            error={changePasswordModal.newPasswordConfirmError}
-            helperText={
-              changePasswordModal.newPasswordConfirmHelperText
-            }
-            getText={(e: any) =>
-              setChangePasswordModal({
-                ...changePasswordModal,
-                newPasswordConfirm: e,
-              })
-            }
-          />
-
-          <LinkButton
-            onClick={handleChangePassword}
+            onClick={changePassword}
             backgroundColor={primary}
           >
             تغییر رمزعبور
