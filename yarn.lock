@@ -151,6 +151,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@capacitor/android@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-5.1.0.tgz#abd50096bbff79e9b742052d0be07487bf1b46cc"
+  integrity sha512-gtJWhu+vFnYo4o4XxBYqaP0mPOgwjJucjlhpWovbKEtb4AgsKyPLrLaVM4U6j1QizIR23carA2hddUSNm/LSTA==
+
 "@capacitor/cli@^5.1.0":
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-5.1.0.tgz#2a5fd8c0bac94ea375c900fae9310a54efb2b84b"
@@ -180,6 +185,11 @@
   integrity sha512-lQDcQ0WKwyhFdtOXxyB+szxlTscGZeOk1tgNVrTg4glnF4k92RrC3uD4LQ27ITFwjBmTNPvOS3vyLz6B3I3JeA==
   dependencies:
     tslib "^2.1.0"
+
+"@capacitor/ios@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@capacitor/ios/-/ios-5.1.0.tgz#d7de79fb089f5d0e573a1a251a2a65e980546156"
+  integrity sha512-OMXYrIzfb6bSY3M6xkamGr3W+nRQ3rvfEVTlV1ruCNNBWnYn+eFNyM1SLbscMrKOrI6MoUN0IMv5oUNZzLnNxA==
 
 "@chakra-ui/accordion@2.1.11":
   version "2.1.11"

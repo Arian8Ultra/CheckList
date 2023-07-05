@@ -1,28 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { useLazyQuery, useMutation, useQuery } from "@apollo/client";
-import { Stack } from "@chakra-ui/react";
-import {
-  AccessibilityNew,
-  AddRounded,
-  DeleteRounded,
-  EditRounded,
-  KeyOffRounded,
-  KeyRounded,
-} from "@mui/icons-material";
-import { Box, Skeleton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+
+import { Stack } from "@chakra-ui/react";
+import { Box, Skeleton, Typography } from "@mui/material";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { AddRounded, DeleteRounded, KeyRounded } from "@mui/icons-material";
+
 import IButton from "../../../components/IButton";
-import {
-  Green,
-  GreenLight,
-  Red,
-  primary,
-  primaryLight,
-} from "../../../theme/Colors";
-import { convertRoleToPersian } from "../../../functions/function";
 import { GET_USERS } from "../../../GraphQL/QueriesUsers";
 import { DELETE_USER } from "../../../GraphQL/MutationsUsers";
-
+import { convertRoleToPersian } from "../../../functions/function";
+import { Green, GreenLight, primary, primaryLight, Red } from "../../../theme/Colors";
 interface Props {
   id?: string;
   className?: string;
@@ -35,7 +23,7 @@ interface Props {
 
 const UserList = (props: Props) => {
   const [users, setUsers] = useState([]);
-  const [getUsers, { data, loading, error }] = useLazyQuery(
+  const [getUsers, { loading, error }] = useLazyQuery(
     GET_USERS,
     {
       onCompleted: (data) => {

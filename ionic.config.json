@@ -1,0 +1,7 @@
+{
+  "name": "check-list",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "custom"
+}
