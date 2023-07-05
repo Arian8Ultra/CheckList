@@ -38,7 +38,7 @@ interface LinkButtonProps {
   children?: ReactNode | object | any;
   fun?: Function;
   fullWidth?: boolean;
-  icon?: string;
+  icon?: Element | ReactNode | any;
   Endicon?: string;
   borderRadius?: string;
   boxShadow?: object | number | string;

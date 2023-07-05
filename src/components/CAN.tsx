@@ -3,8 +3,9 @@ import { Box } from "@mui/system";
 import useAbilityStore from "../stores/abilityStore";
 interface CANProps {
   children: React.ReactNode;
-  permissionNeeded?: string|null;
+  permissionNeeded?: string | null;
   display?: string;
+  reverse?: boolean;
 }
 
 export default function CAN(props: CANProps) {
@@ -18,6 +19,12 @@ export default function CAN(props: CANProps) {
       permissionNeeded == null ||
       abilities.includes("SUPER_ADMIN")
     ) {
+      if (props.reverse) {
+        return "hidden";
+      }
+      return "visible";
+    }
+    if (props.reverse) {
       return "visible";
     }
     return "hidden";
@@ -28,6 +35,12 @@ export default function CAN(props: CANProps) {
       permissionNeeded == null ||
       abilities.includes("SUPER_ADMIN")
     ) {
+      if (props.reverse) {
+        return "0px";
+      }
+      return {};
+    }
+    if (props.reverse) {
       return {};
     }
     return 0;
@@ -38,27 +51,32 @@ export default function CAN(props: CANProps) {
       permissionNeeded == null ||
       abilities.includes("SUPER_ADMIN")
     ) {
+      if (props.reverse) {
+        return "none";
+      }
+      return {};
+    }
+    if (props.reverse) {
       return {};
     }
     return "none";
   };
 
   return (
-
-      <Box
-        component="div"
-        visibility={handlePermissionVisibility()}
-        margin={0}
-        sx={{
-          width: handlePermissionSize(),
-          height: handlePermissionSize(),
-          minWidth: handlePermissionSize(),
-          minHeight: handlePermissionSize(),
-          fontSize: handlePermissionSize(),
-          display: { xs: handlePermissionDisplay() },
-        }}
-      >
-        {children}
-      </Box>
+    <Box
+      component="div"
+      visibility={handlePermissionVisibility()}
+      margin={0}
+      sx={{
+        width: handlePermissionSize(),
+        height: handlePermissionSize(),
+        minWidth: handlePermissionSize(),
+        minHeight: handlePermissionSize(),
+        fontSize: handlePermissionSize(),
+        display: { xs: handlePermissionDisplay() },
+      }}
+    >
+      {children}
+    </Box>
   );
 }

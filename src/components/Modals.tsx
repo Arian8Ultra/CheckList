@@ -16,7 +16,7 @@ interface NewModalProps {
   children?: any;
   name?: string;
   open: boolean;
-  changeModal?: Function;
+  onClose?: Function;
   backgroundColor?: string;
   isCloseable?: boolean;
   dividerColor?: string;
@@ -30,7 +30,7 @@ export default function NewModal(props: NewModalProps) {
   isCloseable = props.isCloseable != null ? props.isCloseable : true;
   dividerColor = props.dividerColor != null ? props.dividerColor : "transparent";
   const handleClose = () => {
-    if (props.isCloseable) props.changeModal && props.changeModal();
+    if (props.isCloseable) props.onClose && props.onClose();
   };
   return (
     <Modal open={props.open} onClose={handleClose}>

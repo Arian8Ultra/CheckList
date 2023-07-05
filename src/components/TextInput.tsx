@@ -85,12 +85,15 @@ interface TextInputProps {
 
 function TextInput(props: TextInputProps) {
   const type = props.type != null ? props.type : "text";
-  const autoComplete = props.autoComplete != null ? props.autoComplete : "";
+  const autoComplete =
+    props.autoComplete != null ? props.autoComplete : "";
   const disabled = props.disabled != null ? props.disabled : false;
   const fontSize = props.fontSize != null ? props.fontSize : 16;
   const width = props.width != null ? props.width : "max-content";
-  const backgroundColor = props.backgroundColor != null ? props.backgroundColor : {};
-  const position = props.position != null ? props.position : "relative";
+  const backgroundColor =
+    props.backgroundColor != null ? props.backgroundColor : {};
+  const position =
+    props.position != null ? props.position : "relative";
   const bottom = props.bottom != null ? props.bottom : "auto";
   const right = props.right != null ? props.right : "auto";
   const top = props.top != null ? props.top : "auto";
@@ -106,36 +109,67 @@ function TextInput(props: TextInputProps) {
   const getText = props.getText != null ? props.getText : () => {};
   const dir = props.dir != null ? props.dir : "rtl";
   const hasIcon = props.hasIcon != null ? props.hasIcon : false;
-  const iconClick = props.iconClick != null ? props.iconClick : () => {};
-  const iconColor = props.iconColor != null ? props.iconColor : "black";
-  const iconHoverColor = props.iconHoverColor != null ? props.iconHoverColor : "black";
+  const iconClick =
+    props.iconClick != null ? props.iconClick : () => {};
+  const iconColor =
+    props.iconColor != null ? props.iconColor : "black";
+  const iconHoverColor =
+    props.iconHoverColor != null ? props.iconHoverColor : "black";
   const iconSize = props.iconSize != null ? props.iconSize : 16;
-  const iconBackground = props.iconBackground != null ? props.iconBackground : "transparent";
+  const iconBackground =
+    props.iconBackground != null
+      ? props.iconBackground
+      : "transparent";
   const fullWidth = props.fullWidth != null ? props.fullWidth : false;
-  const defaultValue = props.defaultValue != null ? props.defaultValue : "";
-  const placeholder = props.placeholder != null ? props.placeholder : "";
-  const borderRadius = props.borderRadius != null ? props.borderRadius : "15px";
+  const defaultValue =
+    props.defaultValue != null ? props.defaultValue : "";
+  const placeholder =
+    props.placeholder != null ? props.placeholder : "";
+  const borderRadius =
+    props.borderRadius != null ? props.borderRadius : "15px";
   const icon = props.icon != null ? props.icon : null;
-  const iconPosition = props.iconPosition != null ? props.iconPosition : "end";
-  const hasStickyText = props.hasStickyText != null ? props.hasStickyText : false;
+  const iconPosition =
+    props.iconPosition != null ? props.iconPosition : "end";
+  const hasStickyText =
+    props.hasStickyText != null ? props.hasStickyText : false;
   const stickyText = props.stickyText != null ? props.stickyText : "";
-  const stickyTextColor = props.stickyTextColor != null ? props.stickyTextColor : "black";
-  const stickyTextSize = props.stickyTextSize != null ? props.stickyTextSize : 16;
-  const stickyTextMargin = props.stickyTextMargin != null ? props.stickyTextMargin : "0px";
+  const stickyTextColor =
+    props.stickyTextColor != null ? props.stickyTextColor : "black";
+  const stickyTextSize =
+    props.stickyTextSize != null ? props.stickyTextSize : 16;
+  const stickyTextMargin =
+    props.stickyTextMargin != null ? props.stickyTextMargin : "0px";
   const hasButton = props.hasButton != null ? props.hasButton : false;
-  const buttonOnClick = props.buttonOnClick != null ? props.buttonOnClick : () => {};
-  const buttonColor = props.buttonColor != null ? props.buttonColor : "black";
-  const buttonHoverColor = props.buttonHoverColor != null ? props.buttonHoverColor : "black";
+  const buttonOnClick =
+    props.buttonOnClick != null ? props.buttonOnClick : () => {};
+  const buttonColor =
+    props.buttonColor != null ? props.buttonColor : "black";
+  const buttonHoverColor =
+    props.buttonHoverColor != null ? props.buttonHoverColor : "black";
   const items = props.items != null ? props.items : [];
   const isSelect = props.isSelect != null ? props.isSelect : false;
   const focus = props.focus != null ? props.focus : {};
-  const borderColor = props.borderColor != null ? props.borderColor : primary;
-  const borderColorHover = props.borderColorHover != null ? props.borderColorHover : secondary;
-  const borderColorFocus = props.borderColorFocus != null ? props.borderColorFocus : secondary;
+  const borderColor =
+    props.borderColor != null ? props.borderColor : primary;
+  const borderColorHover =
+    props.borderColorHover != null
+      ? props.borderColorHover
+      : secondary;
+  const borderColorFocus =
+    props.borderColorFocus != null
+      ? props.borderColorFocus
+      : secondary;
 
-  const textColor = props.textColor != null ? props.textColor : borderColor;
-  const textColorHover = props.textColorHover != null ? props.textColorHover : borderColorHover;
-  const texColorFocus = props.texColorFocus != null ? props.texColorFocus : borderColorFocus;
+  const textColor =
+    props.textColor != null ? props.textColor : borderColor;
+  const textColorHover =
+    props.textColorHover != null
+      ? props.textColorHover
+      : borderColorHover;
+  const texColorFocus =
+    props.texColorFocus != null
+      ? props.texColorFocus
+      : borderColorFocus;
 
   const [textValue, setTextValue] = useState(props.value);
   useEffect(() => {
@@ -164,7 +198,7 @@ function TextInput(props: TextInputProps) {
         defaultValue={defaultValue}
         value={textValue}
         autoComplete={autoComplete}
-        variant='outlined'
+        variant="outlined"
         type={type}
         disabled={disabled}
         error={error}
@@ -178,14 +212,17 @@ function TextInput(props: TextInputProps) {
         InputProps={{
           endAdornment: hasIcon ? (
             // @ts-ignore
-            <InputAdornment position={iconPosition} onClick={iconClick}>
+            <InputAdornment
+              position={iconPosition}
+              onClick={iconClick}
+            >
               <IconButton
                 sx={{
-                  "color": iconColor,
+                  color: iconColor,
                   "&:hover": { color: iconHoverColor },
                   // change icon size
-                  "fontSize": iconSize,
-                  "backgroundColor": iconBackground,
+                  fontSize: iconSize,
+                  backgroundColor: iconBackground,
                 }}
               >
                 {icon}
@@ -198,7 +235,7 @@ function TextInput(props: TextInputProps) {
             borderBottomRightRadius: hasButton ? 0 : borderRadius,
           },
           startAdornment: hasStickyText ? (
-            <InputAdornment position='start'>
+            <InputAdornment position="start">
               <Typography
                 sx={{
                   color: stickyTextColor,
@@ -212,19 +249,20 @@ function TextInput(props: TextInputProps) {
           ) : null,
         }}
         sx={{
-          "boxShadow": 0,
-          "borderRadius": hasButton ? 0 : borderRadius,
-          "py": py,
-          "px": px,
-          "right": right,
-          "left": left,
-          "top": top,
-          "bottom": bottom,
-          "position": position,
-          "width": width,
-          "fontSize": fontSize,
-          "backgroundColor": backgroundColor,
-          "color": textColor,
+          flexGrow: 1,
+          boxShadow: 0,
+          borderRadius: hasButton ? 0 : borderRadius,
+          py: py,
+          px: px,
+          right: right,
+          left: left,
+          top: top,
+          bottom: bottom,
+          position: position,
+          width: width,
+          fontSize: fontSize,
+          backgroundColor: backgroundColor,
+          color: textColor,
           "&:focus": focus,
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -241,7 +279,7 @@ function TextInput(props: TextInputProps) {
         InputLabelProps={{
           size: size,
           sx: {
-            "color": textColor,
+            color: textColor,
             "&.Mui-focused": {
               color: texColorFocus,
             },
@@ -260,11 +298,11 @@ function TextInput(props: TextInputProps) {
       {hasButton && (
         <Button
           sx={{
-            "color": textColor,
-            "bgcolor": buttonColor,
-            "borderRadius": borderRadiuosTextField,
-            "borderTopLeftRadius": 0,
-            "borderBottomLeftRadius": 0,
+            color: textColor,
+            bgcolor: buttonColor,
+            borderRadius: borderRadiuosTextField,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
             "&:hover": {
               backgroundColor: buttonHoverColor,
             },
