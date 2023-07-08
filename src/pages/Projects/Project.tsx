@@ -6,16 +6,23 @@ import { GET_FORM_OBJ_BY_PROJECT_ID } from "../../GraphQL/QueriesFormObj";
 import FormobjectCard from "../../components(app)/FromObj/FormobjectCard";
 import useLayoutStore from "../../stores/layoutStore";
 import LinkButton from "../../components/LinkButton";
-import { Green, primary } from "../../theme/Colors";
+import { Green, onPrimary, primary } from "../../theme/Colors";
 import { CREATE_FORM_OBJ } from "../../GraphQL/MutationsFormObj";
 import NewModal from "../../components/Modals";
 import TextInput from "../../components/TextInput";
 import Selector from "../../components/Selector";
 import IButton from "../../components/IButton";
 import CAN from "../../components/CAN";
-import { AddRounded, FileDownload, FilePresentSharp, FolderRounded } from "@mui/icons-material";
+import {
+  AddRounded,
+  FileDownload,
+  FilePresentSharp,
+  FolderRounded,
+} from "@mui/icons-material";
 import { GET_RELATED_FILE_BY_PROJECT_ID } from "../../GraphQL/QueriesRelatedFile";
 import RelatedFileCard from "../../components(app)/Question/RelatedFileCard";
+import { Button } from "@mui/material";
+import { CREATE_RELATED_FILE } from "../../GraphQL/MutationRelatedFile";
 
 const Projects = () => {
   const { projectId } = useParams();
@@ -23,10 +30,13 @@ const Projects = () => {
   const changePageName = useLayoutStore(
     (state) => state.changePageName
   );
-  const [relatedFileModal,setRelatedFileModal]=useState({
-    open:false,
-    projectId:projectId && parseInt(projectId)
-  })
+  const [relatedFileModal, setRelatedFileModal] = useState({
+    open: false,
+    projectId: projectId && parseInt(projectId),
+    fileName: "",
+    fileAddress: "",
+    description: "",
+  });
   const [addModal, setAddModal] = useState({
     open: false,
     content: "",
@@ -36,8 +46,7 @@ const Projects = () => {
     hasProject: false,
   });
 
-  
-  const { data, loading, error,refetch } = useQuery(
+  const { data, loading, error, refetch } = useQuery(
     GET_FORM_OBJ_BY_PROJECT_ID,
     {
       variables: {
@@ -52,42 +61,44 @@ const Projects = () => {
     }
   );
   const {
-    data:relatedFilesData,
-    loading:relatedFilesLoading,
-    error:relatedFilesError,
-  }=useQuery(GET_RELATED_FILE_BY_PROJECT_ID,{
-    variables:{
-      projectId:projectId && parseInt(projectId)
+    data: relatedFilesData,
+    loading: relatedFilesLoading,
+    error: relatedFilesError,
+    refetch: relatedFilesRefetch,
+  } = useQuery(GET_RELATED_FILE_BY_PROJECT_ID, {
+    variables: {
+      projectId: projectId && parseInt(projectId),
     },
     onCompleted(data) {
       console.log(data);
     },
     onError(error) {
       console.log(error);
-    }
-  })
-
+    },
+  });
 
   const [addFormObject] = useMutation(CREATE_FORM_OBJ);
+
+  const [addRelatedFile] = useMutation(CREATE_RELATED_FILE);
 
   useEffect(() => {
     changePageName(loction.state.title);
   }, []);
   return (
     <Stack width={"100%"} spacing={2} backdropBlur={"5px"}>
-        {/* <LinkButton
-          icon={<FolderRounded/>}
-          width={'max-content'}
-          backgroundColor={primary}
-          onClick={()=>{
-            setRelatedFileModal({
-              ...relatedFileModal,
-              open:true
-            })
-          }}
-          >
-            فایل های مرتبط
-          </LinkButton> */}
+      <LinkButton
+        icon={<FolderRounded />}
+        width={"max-content"}
+        backgroundColor={primary}
+        onClick={() => {
+          setRelatedFileModal({
+            ...relatedFileModal,
+            open: true,
+          });
+        }}
+      >
+        فایل های مرتبط
+      </LinkButton>
       <CAN permissionNeeded={"ADMIN"}>
         <IButton
           title="Add Form Object"
@@ -211,7 +222,12 @@ const Projects = () => {
         name="فایل های مرتبط"
         open={relatedFileModal.open}
         isCloseable={true}
-        onClose={() => setRelatedFileModal({ ...relatedFileModal, open: !relatedFileModal.open })}
+        onClose={() =>
+          setRelatedFileModal({
+            ...relatedFileModal,
+            open: !relatedFileModal.open,
+          })
+        }
         width={{
           xs: "90%",
           sm: "70%",
@@ -222,18 +238,122 @@ const Projects = () => {
         backgroundColor="white"
         color={primary}
       >
-        <Stack width={"100%"} spacing={2} backdropBlur={"5px"}>
-        {relatedFilesData?.relatedFile_getRelatedFiles?.result?.items?.map((file: any , index: number) => (
-            <RelatedFileCard
-              key={file.id}
-              id={file.id}
-              fileName={"file"+index}
-              title={"file"+index}
-              description={""}
+        <Box
+          display={"flex"}
+          flexDirection={"column"}
+          gap={2}
+          width={"100%"}
+          maxHeight={"80vh"}
+          overflowY={"auto"}
+          position={'relative'}
+        >
+          <Box
+            display={"grid"}
+            width={"100%"}
+            gridTemplateColumns={"1fr 1fr"}
+            gap={2}
+            position={"sticky"}
+            zIndex={2}
+            top={0}
+            backgroundColor={onPrimary}
+          >
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              gap={2}
+              height={"100%"}
+              justifyContent={"space-between"}
+            >
+              <TextInput
+                label="نام فایل"
+                width={"100%"}
+                fullWidth
+                height={"100%"}
+                getText={(e: any) => {
+                  setRelatedFileModal({
+                    ...relatedFileModal,
+                    fileName: e,
+                  });
+                }}
+                value={relatedFileModal.fileName}
+              />
+              <TextInput
+                label="لینک فایل"
+                width={"100%"}
+                fullWidth
+                height={"100%"}
+                getText={(e: any) => {
+                  setRelatedFileModal({
+                    ...relatedFileModal,
+                    fileAddress: e,
+                  });
+                }}
+                value={relatedFileModal.fileAddress}
+              />
+            </Box>
+            <TextInput
+              label="توضیحات"
+              width={"100%"}
+              fullWidth
+              multiline
+              rows={4}
+              value={relatedFileModal.description}
+              getText={(e: any) => {
+                setRelatedFileModal({
+                  ...relatedFileModal,
+                  description: e,
+                });
+              }}
             />
-          ))}
-        </Stack>
 
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: primary,
+                color: "white",
+                borderRadius: "15px",
+                gridColumn: "1/3",
+              }}
+              onClick={() => {
+                addRelatedFile({
+                  variables: {
+                    projectId: projectId && parseInt(projectId),
+                    fileName: relatedFileModal.fileName,
+                    fileAddress: relatedFileModal.fileAddress,
+                    description: relatedFileModal.description,
+                  },
+                  onCompleted(data) {
+                    console.log(data);
+                    relatedFilesRefetch();
+                  },
+                  onError(error) {
+                    console.log(error);
+                  },
+                });
+              }}
+            >
+              ثبت
+            </Button>
+          </Box>
+          <Stack
+            width={"100%"}
+            spacing={2}
+            backdropBlur={"5px"}
+            position={"relative"}
+          >
+            {relatedFilesData?.relatedFile_getRelatedFiles?.result?.items?.map(
+              (file: any, index: number) => (
+                <RelatedFileCard
+                  key={file.id}
+                  id={file.id}
+                  fileName={file.fileAddress}
+                  title={file.fileName}
+                  description={file.description}
+                />
+              )
+            )}
+          </Stack>
+        </Box>
       </NewModal>
     </Stack>
   );

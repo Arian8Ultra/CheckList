@@ -8,6 +8,8 @@ export const GET_RELATED_FILE_BY_PROJECT_ID = gql`
           projectId
           fileAddress
           id
+          fileName
+          description
         }
       }
       status

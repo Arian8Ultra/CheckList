@@ -1,4 +1,5 @@
 import {
+  DeleteRounded,
   DownloadRounded,
   ExpandMoreRounded,
 } from "@mui/icons-material";
@@ -13,7 +14,9 @@ import React from "react";
 import IButton from "../../components/IButton";
 import { DownloadFile } from "../../api/api";
 import { usePersistStore } from "../../stores/PersistStore";
-import { Green, GreenLight } from "../../theme/Colors";
+import { Green, GreenLight, Red, RedLight } from "../../theme/Colors";
+import { useMutation } from "@apollo/client";
+import { DELETE_RELATED_FILE } from "../../GraphQL/MutationRelatedFile";
 interface Props {
   id?: string;
   title?: string;
@@ -44,11 +47,27 @@ const RelatedFileCard = (props: Props) => {
       },
     });
   }
+
+  const [deleteRelatedFile] = useMutation(DELETE_RELATED_FILE,{
+    variables:{
+      id:props.id
+    },
+    onCompleted(data, clientOptions) {
+      console.log(data);
+      alert("فایل مورد نظر با موفقیت حذف شد");
+      window.location.reload();
+    },
+    onError(error, clientOptions) {
+      console.log(error);
+      alert("مشکلی در حذف فایل پیش آمده است");
+    },
+  })
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ExpandMoreRounded />}>
         <Box
           display={"grid"}
+          width={'100%'}
           gridTemplateColumns={"repeat(3, 1fr)"}
           gap={4}
           justifyContent={"center"}
@@ -60,7 +79,7 @@ const RelatedFileCard = (props: Props) => {
             transition: "all 0.2s ease-in-out",
           }}
         >
-          <Typography
+          {/* <Typography
             variant={"body1"}
             sx={{
               color: "#000",
@@ -70,7 +89,7 @@ const RelatedFileCard = (props: Props) => {
             }}
           >
             {props.id}
-          </Typography>
+          </Typography> */}
           {/* <Typography
             variant={"body1"}
             sx={{
@@ -88,11 +107,11 @@ const RelatedFileCard = (props: Props) => {
             sx={{
               color: "#000",
               fontWeight: "bold",
-              fontSize: "1.2rem",
+              fontSize: "1rem",
               textAlign: "center",
             }}
           >
-            {props.fileName}
+            {props.title}
           </Typography>
 
           <IButton
@@ -106,16 +125,37 @@ const RelatedFileCard = (props: Props) => {
               }}
             />
           </IButton>
+          <IButton
+            fun={()=>{
+              confirm("آیا از حذف فایل مورد نظر اطمینان دارید؟")&&
+              deleteRelatedFile({
+                variables:{
+                  id:props.id
+                }
+              })
+            }}
+            backgroundColor={Red}
+            hoverColor={RedLight}
+          >
+            <DeleteRounded
+              sx={{
+                color: "white",
+              }}
+            />
+          </IButton>
         </Box>
       </AccordionSummary>
       <AccordionDetails>
+        <Typography>
+          توضیحات
+        </Typography>
         <Typography
           variant={"body1"}
           sx={{
             color: "#000",
             fontWeight: "bold",
-            fontSize: "1.2rem",
-            textAlign: "center",
+            fontSize: "1rem",
+            textAlign: "start",
           }}
         >
           {props.description}
