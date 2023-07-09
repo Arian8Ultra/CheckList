@@ -34,18 +34,18 @@ export const UPDATE_FORM_OBJ = gql`
   mutation updateFormObj(
     $id: Int!
     $content: String!
-    $formObjectType: FormObjectType!
-    $parentId: Int!
-    $projectId: Int!
+    # $formObjectType: FormObjectType!
+    # $parentId: Int!
+    # $projectId: Int!
   ) {
     formObject_updateFormObject(
       input: {
         content: $content
-        formObjectType: $formObjectType
+        # formObjectType: $formObjectType
         id: $id
         isCustom: true
-        parentId: $parentId
-        projectId: $projectId
+        # parentId: $parentId
+        # projectId: $projectId
       }
     ) {
       result {

@@ -117,7 +117,7 @@ const Home = () => {
 
   return (
     <Stack my={6} gap={2}>
-      <CAN permissionNeeded="ADMIN">
+      <CAN permissionNeeded="NORMAL">
         <Box
           display={"flex"}
           gap={2}

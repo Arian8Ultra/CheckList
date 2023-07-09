@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
 export const GET_PROJECTS = gql`
-  query projects_getProjects ($take: Int, $skip: Int) {
+  query projects_getProjects ($skip: Int) {
     project_getProjects {
-      result (take: $take, skip: $skip) {
+      result (take: 2000, skip: $skip) {
         items {
           userId
           title
@@ -26,7 +26,7 @@ export const GET_PROJECTS = gql`
 
 
 export const GET_PROJECTS_SEARCH = gql`
-  query projects_getProjectsSearch ($search: String, $take: Int, $skip: Int) {
+  query projects_getProjectsSearch ($search: String, $skip: Int) {
     project_getProjects{
       result (
         where: {
@@ -35,7 +35,7 @@ export const GET_PROJECTS_SEARCH = gql`
             {contractNumber: {contains: $search}}
           ]
         }
-        take: $take, 
+        take: 2000, 
         skip: $skip) {
         items {
           userId

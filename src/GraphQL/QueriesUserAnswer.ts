@@ -10,7 +10,8 @@ export const GET_USER_ANSWER_BY_USER_ID_AND_FORM_OBJECT_ID = gql`
         where: {
           userId: { eq: $userId }
           formObjectId: { eq: $formObjectId }
-        }
+        },
+        take: 2000
       ) {
         items {
           answerType

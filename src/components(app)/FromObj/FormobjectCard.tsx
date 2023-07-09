@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import {
   CREATE_FORM_OBJ,
   DELETE_FORM_OBJ,
+  UPDATE_FORM_OBJ,
 } from "../../GraphQL/MutationsFormObj";
 import { GET_FORM_OBJ_BY_PARENT_ID } from "../../GraphQL/QueriesFormObj";
 import CAN from "../../components/CAN";
@@ -45,6 +46,7 @@ interface IFormobjectCardProps {
   formObjectType: "CATEGORY" | "QUESTION";
   id: number;
   hiarchy?: number;
+  parentId: number;
 }
 const FormobjectCard = (props: IFormobjectCardProps) => {
   const [addModal, setAddModal] = React.useState({
@@ -54,6 +56,15 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
     formObjectType: "CATEGORY",
     projectId: 0,
     hasProject: false,
+  });
+  const [editModal, setEditModal] = React.useState({
+    open: false,
+    content: "",
+    parentId: 0,
+    formObjectType: "CATEGORY",
+    projectId: 0,
+    hasProject: false,
+    id: 0,
   });
   const userId = usePersistStore((state) => state.id);
   const [answer, setAnswer] = React.useState("");
@@ -93,8 +104,8 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
   );
 
   const [addFormObject] = useMutation(CREATE_FORM_OBJ);
-
   const [deleteFormObject] = useMutation(DELETE_FORM_OBJ);
+  const [updateFormObject] = useMutation(UPDATE_FORM_OBJ);
 
   const [addAnswer] = useMutation(CREATE_USER_ANSWER);
   const [updateAnswer] = useMutation(UPDATE_USER_ANSWER);
@@ -316,6 +327,18 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             title="Edit Form Object"
             backgroundColor={Blue}
             color={"white"}
+            fun={() => {
+              setEditModal({
+                ...editModal,
+                open: true,
+                id: props.id,
+                content: props.content,
+                formObjectType: props.formObjectType,
+                projectId: props.projectId,
+                parentId: props.parentId,
+                hasProject: props.projectId !== null,
+              });
+            }}
           >
             <EditRounded />
           </IButton>
@@ -376,6 +399,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             (formObj: {
               id: number;
               projectId: number;
+              parentId: number;
               content: string;
               formObjectType: any;
             }) => (
@@ -385,6 +409,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                 content={formObj.content}
                 formObjectType={formObj.formObjectType}
                 id={formObj.id}
+                parentId={formObj.parentId}
                 hiarchy={props.hiarchy ? props.hiarchy + 1 : 1}
               />
             )
@@ -454,6 +479,64 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                     formObjectType: addModal.formObjectType,
                     parentId: addModal.parentId,
                     projectId: addModal.projectId,
+                  },
+                  onCompleted(data) {
+                    console.log(data);
+                    window.location.reload();
+                  },
+                  onError(error) {
+                    console.log(error);
+                  },
+                });
+              }
+            }}
+          >
+            ثبت
+          </LinkButton>
+        </Box>
+      </NewModal>
+      <NewModal
+        name="ویرایش فرم"
+        open={editModal.open}
+        isCloseable={true}
+        onClose={() => setEditModal({ ...editModal, open: !open })}
+        width={{
+          xs: "90%",
+          sm: "70%",
+          md: "50%",
+          lg: "40%",
+          xl: "30%",
+        }}
+        backgroundColor="white"
+        color={primary}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={20}
+          width={"80%"}
+          paddingInline={"10%"}
+        >
+          <TextInput
+            label="صورت فرم"
+            value={editModal.content}
+            getText={(content: string) =>
+              setEditModal({ ...editModal, content })
+            }
+            width={"90%"}
+          />
+
+<LinkButton
+            backgroundColor={primary}
+            onClick={() => {
+              console.log(addModal);
+              // make a prompt which user can accept or decline
+              const isAccepted = confirm("آیا مطمئن هستید؟");
+              if (isAccepted) {
+                updateFormObject({
+                  variables: {
+                    content: editModal.content,
+                    id: editModal.id,
                   },
                   onCompleted(data) {
                     console.log(data);

@@ -38,7 +38,11 @@ export const LOGIN_USER = gql`
           firstName
           lastName
           id
-          userCurrentRole
+          userRoles {
+            roleType
+            id
+            userId
+          }
         }
         token
         expireDate

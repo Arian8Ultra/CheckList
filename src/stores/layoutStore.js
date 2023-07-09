@@ -9,7 +9,10 @@ const useLayoutStore = create(
         pageName: "",
         changeSidebar: () => set({ openSidebar: !get().openSidebar }),
         changeSidebarWidth: (/** @type {String} */ newSize) => set({ SidebarWidth: newSize }),
-        changePageName: (/** @type {String} */ newName) => set({ pageName: newName }),
+        changePageName: (/** @type {String} */ newName) => {
+          set({ pageName: newName })
+          document.title = newName;
+        },
       }),
       {
         name: "LayoutStore",

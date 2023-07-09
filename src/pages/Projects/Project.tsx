@@ -126,6 +126,7 @@ const Projects = () => {
             projectId: number;
             content: string;
             formObjectType: any;
+            parentId: number;
           }) => (
             <FormobjectCard
               key={formObj.id}
@@ -134,6 +135,7 @@ const Projects = () => {
               formObjectType={formObj.formObjectType}
               id={formObj.id}
               hiarchy={1}
+              parentId={formObj.parentId}
             />
           )
         )

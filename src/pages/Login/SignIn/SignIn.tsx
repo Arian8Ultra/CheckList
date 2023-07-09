@@ -25,6 +25,7 @@ const SignIn = () => {
   const addAbilityArray = useAbilityStore(
     (state) => state.addAbilityArray
   );
+  const addAbility = useAbilityStore((state) => state.addAbility);
 
   const [
     userLogin,
@@ -36,7 +37,11 @@ const SignIn = () => {
     },
     onCompleted(data, clientOptions) {
       console.log(data);
-      addAbilityArray([data.user_signIn.result.user.userCurrentRole]);
+      data.user_signIn.result.user?.userRoles &&
+      data.user_signIn.result.user?.userRoles.map((role: any) => {
+        addAbility(role.roleType);
+        console.log(role.roleType);
+      });
       setUser(
         data.user_signIn.result.user.firstName,
         data.user_signIn.result.user.lastName,

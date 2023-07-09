@@ -27,7 +27,7 @@ export const GET_CURRENT_USER = gql`
 export const GET_USERS = gql`
 query user_getUsers{
   user_getUsers {
-    result (order: {createdDate : DESC}){
+    result (order: {createdDate : DESC},take: 2000){
       items{
         firstName
         lastName
