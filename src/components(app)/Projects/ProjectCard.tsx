@@ -119,7 +119,7 @@ const ProjectCard = (props: IProjectCardProps) => {
         height={"100%"}
         onClick={() =>
           nav(`/home/project/${props.id}`, {
-            state: { title: props.title },
+            state: { title: props.title,userId:props.userId },
           })
         }
         sx={{
@@ -151,7 +151,7 @@ const ProjectCard = (props: IProjectCardProps) => {
         }}
         onClick={() =>
           nav(`/home/project/${props.id}`, {
-            state: { title: props.title },
+            state: { title: props.title,userId:props.userId },
           })
         }
       >

@@ -1,32 +1,30 @@
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { Box } from "@chakra-ui/react";
+import {
+  CancelOutlined,
+  SearchRounded
+} from "@mui/icons-material";
+import { Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import {
   GET_PROJECTS,
   GET_PROJECTS_SEARCH,
 } from "../../GraphQL/QueriesProjects";
-import { useLazyQuery, useQuery } from "@apollo/client";
-import { Stack, Typography } from "@mui/material";
-import ProjectCard from "./ProjectCard";
-import { Box } from "@chakra-ui/react";
-import {
-  CardBackground,
-  Red,
-  primary,
-  textPrimary,
-} from "../../theme/Colors";
 import TextInput from "../../components/TextInput";
 import {
-  CancelOutlined,
-  DeleteForeverRounded,
-  SearchRounded,
-} from "@mui/icons-material";
+  CardBackground,
+  primary,
+  textPrimary
+} from "../../theme/Colors";
+import ProjectCard from "./ProjectCard";
 
 interface ProjectsListProps {
-  refetch?: any;
+  refetch?: boolean;
 }
 const ProjectsList = (props: ProjectsListProps) => {
   const [projectData, setProjectData] = React.useState<any>([]);
   const [search, setSearch] = React.useState("");
-  const { data, loading, error, refetch } = useQuery(GET_PROJECTS, {
+  const { refetch } = useQuery(GET_PROJECTS, {
     onCompleted(data) {
       console.log(data);
       setProjectData(data);
@@ -56,7 +54,7 @@ const ProjectsList = (props: ProjectsListProps) => {
     } else {
       refetch();
     }
-  }, [search]);
+  }, [refetch, search, searchProjects]);
 
   useEffect(() => {
     refetch();

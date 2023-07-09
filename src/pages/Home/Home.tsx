@@ -1,46 +1,34 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Stack } from "@mui/material";
-import Title from "../../components(app)/Title";
+import { useMutation } from "@apollo/client";
+import { Box } from "@chakra-ui/react";
 import {
-  CREATE_SHEET,
-  CREATE_SUBTITLE,
-  DELETE_TITLE,
-  GET_SHEETS,
-  GET_SHEETS_SEARCH,
-  UPDATE_TITLE,
-} from "../../api/api";
+  AddCircleRounded
+} from "@mui/icons-material";
+import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
-import SheetCard from "../../components(app)/Home/SheetCard";
-import SearchInput from "../../components/SearchInput";
-import TextInput from "../../components/TextInput";
-import useLayoutStore from "../../stores/layoutStore";
+import { CREATE_PROJECT } from "../../GraphQL/MutationsProjects";
+import {
+  GET_SHEETS,
+  GET_SHEETS_SEARCH
+} from "../../api/api";
+import ProjectsList from "../../components(app)/Projects/ProjectsList";
 import CAN from "../../components/CAN";
-import { Box, Text } from "@chakra-ui/react";
 import IButton from "../../components/IButton";
+import LinkButton from "../../components/LinkButton";
+import NewModal from "../../components/Modals";
+import TextInput from "../../components/TextInput";
+import { usePersistStore } from "../../stores/PersistStore";
+import useLayoutStore from "../../stores/layoutStore";
 import {
   Green,
   GreenLight,
-  Red,
-  RedLight,
-  primary,
-  primaryLight,
+  primary
 } from "../../theme/Colors";
-import {
-  AddCircleRounded,
-  DeleteForeverRounded,
-  EditTwoTone,
-} from "@mui/icons-material";
-import NewModal from "../../components/Modals";
-import LinkButton from "../../components/LinkButton";
-import ProjectsList from "../../components(app)/Projects/ProjectsList";
-import { usePersistStore } from "../../stores/PersistStore";
-import { useMutation } from "@apollo/client";
-import { CREATE_PROJECT } from "../../GraphQL/MutationsProjects";
 
 const Home = () => {
   const currentUserId = usePersistStore((state) => state.id);
   const token = sessionStorage.getItem("token");
-  const [DocTitles, setDocTitles] = useState([]);
+  const [, setDocTitles] = useState([]);
   const [refetch, setRefetch] = useState(false);
   const [addModal, setAddModal] = useState({
     open: false,
@@ -56,7 +44,7 @@ const Home = () => {
       contractNumber: addModal.contractNumber,
       userId: currentUserId,
     },
-    onCompleted(data, clientOptions) {
+    onCompleted(data) {
       console.log(data);
       setRefetch(!refetch);
       setAddModal({
@@ -66,7 +54,7 @@ const Home = () => {
         contractNumber: "",
       });
     },
-    onError(error, clientOptions) {
+    onError(error) {
       console.log(error);
       setRefetch(!refetch);
     },
@@ -85,23 +73,8 @@ const Home = () => {
       },
     });
     changePageName("صفحه اصلی");
-  }, []);
+  }, [changePageName, token]);
 
-  const handleSearch = (e: any) => {
-    GET_SHEETS_SEARCH({
-      token,
-      search: e,
-      setArray: setDocTitles,
-      signOut: () => {},
-      onFail: (err: any) => {
-        console.log(err);
-      },
-      onSuccess: (res: any) => {
-        console.log(res);
-        setDocTitles(res);
-      },
-    });
-  };
 
   const handleChangeAddModal = () => {
     setAddModal({

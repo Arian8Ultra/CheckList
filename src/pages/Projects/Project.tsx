@@ -1,28 +1,26 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { Box, Stack } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { GET_FORM_OBJ_BY_PROJECT_ID } from "../../GraphQL/QueriesFormObj";
-import FormobjectCard from "../../components(app)/FromObj/FormobjectCard";
-import useLayoutStore from "../../stores/layoutStore";
-import LinkButton from "../../components/LinkButton";
-import { Green, onPrimary, primary } from "../../theme/Colors";
-import { CREATE_FORM_OBJ } from "../../GraphQL/MutationsFormObj";
-import NewModal from "../../components/Modals";
-import TextInput from "../../components/TextInput";
-import Selector from "../../components/Selector";
-import IButton from "../../components/IButton";
-import CAN from "../../components/CAN";
 import {
   AddRounded,
-  FileDownload,
-  FilePresentSharp,
-  FolderRounded,
+  FolderRounded
 } from "@mui/icons-material";
-import { GET_RELATED_FILE_BY_PROJECT_ID } from "../../GraphQL/QueriesRelatedFile";
-import RelatedFileCard from "../../components(app)/Question/RelatedFileCard";
 import { Button } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { CREATE_RELATED_FILE } from "../../GraphQL/MutationRelatedFile";
+import { CREATE_FORM_OBJ } from "../../GraphQL/MutationsFormObj";
+import { GET_FORM_OBJ_BY_PROJECT_ID } from "../../GraphQL/QueriesFormObj";
+import { GET_RELATED_FILE_BY_PROJECT_ID } from "../../GraphQL/QueriesRelatedFile";
+import FormobjectCard from "../../components(app)/FromObj/FormobjectCard";
+import RelatedFileCard from "../../components(app)/Question/RelatedFileCard";
+import CAN from "../../components/CAN";
+import IButton from "../../components/IButton";
+import LinkButton from "../../components/LinkButton";
+import NewModal from "../../components/Modals";
+import Selector from "../../components/Selector";
+import TextInput from "../../components/TextInput";
+import useLayoutStore from "../../stores/layoutStore";
+import { Green, onPrimary, primary } from "../../theme/Colors";
 
 const Projects = () => {
   const { projectId } = useParams();
@@ -46,7 +44,7 @@ const Projects = () => {
     hasProject: false,
   });
 
-  const { data, loading, error, refetch } = useQuery(
+  const { data, loading, refetch } = useQuery(
     GET_FORM_OBJ_BY_PROJECT_ID,
     {
       variables: {
@@ -62,8 +60,6 @@ const Projects = () => {
   );
   const {
     data: relatedFilesData,
-    loading: relatedFilesLoading,
-    error: relatedFilesError,
     refetch: relatedFilesRefetch,
   } = useQuery(GET_RELATED_FILE_BY_PROJECT_ID, {
     variables: {
@@ -80,10 +76,11 @@ const Projects = () => {
   const [addFormObject] = useMutation(CREATE_FORM_OBJ);
 
   const [addRelatedFile] = useMutation(CREATE_RELATED_FILE);
+  const projectUserId = loction.state.userId;
 
   useEffect(() => {
     changePageName(loction.state.title);
-  }, []);
+  }, [changePageName, loction.state.title]);
   return (
     <Stack width={"100%"} spacing={2} backdropBlur={"5px"}>
       <LinkButton
@@ -125,7 +122,7 @@ const Projects = () => {
             id: number;
             projectId: number;
             content: string;
-            formObjectType: any;
+            formObjectType: never;
             parentId: number;
           }) => (
             <FormobjectCard
@@ -136,6 +133,7 @@ const Projects = () => {
               id={formObj.id}
               hiarchy={1}
               parentId={formObj.parentId}
+              userId={projectUserId}
             />
           )
         )
@@ -344,7 +342,7 @@ const Projects = () => {
             position={"relative"}
           >
             {relatedFilesData?.relatedFile_getRelatedFiles?.result?.items?.map(
-              (file: any, index: number) => (
+              (file: any) => (
                 <RelatedFileCard
                   key={file.id}
                   id={file.id}

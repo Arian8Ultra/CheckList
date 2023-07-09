@@ -5,22 +5,29 @@ import {
   DeleteRounded,
   EditRounded,
 } from "@mui/icons-material";
+import { CircularProgress, Skeleton } from "@mui/material";
+import { red } from "@mui/material/colors";
 import React, { useEffect } from "react";
 import {
   CREATE_FORM_OBJ,
   DELETE_FORM_OBJ,
   UPDATE_FORM_OBJ,
 } from "../../GraphQL/MutationsFormObj";
+import {
+  CREATE_USER_ANSWER,
+  UPDATE_USER_ANSWER,
+} from "../../GraphQL/MutationsUserAnswer";
 import { GET_FORM_OBJ_BY_PARENT_ID } from "../../GraphQL/QueriesFormObj";
+import { GET_USER_ANSWER_BY_USER_ID_AND_FORM_OBJECT_ID } from "../../GraphQL/QueriesUserAnswer";
 import CAN from "../../components/CAN";
 import IButton from "../../components/IButton";
 import LinkButton from "../../components/LinkButton";
 import NewModal from "../../components/Modals";
 import Selector from "../../components/Selector";
 import TextInput from "../../components/TextInput";
+import { usePersistStore } from "../../stores/PersistStore";
 import {
   Blue,
-  BlueLight,
   CardBackground,
   Green,
   GreenLight,
@@ -30,16 +37,8 @@ import {
   YellowLight,
   onPrimary,
   primary,
-  textPrimary,
+  textPrimary
 } from "../../theme/Colors";
-import { GET_USER_ANSWER_BY_USER_ID_AND_FORM_OBJECT_ID } from "../../GraphQL/QueriesUserAnswer";
-import { usePersistStore } from "../../stores/PersistStore";
-import { red } from "@mui/material/colors";
-import {
-  CREATE_USER_ANSWER,
-  UPDATE_USER_ANSWER,
-} from "../../GraphQL/MutationsUserAnswer";
-import { CircularProgress, Skeleton } from "@mui/material";
 interface IFormobjectCardProps {
   projectId: number;
   content: string;
@@ -47,6 +46,7 @@ interface IFormobjectCardProps {
   id: number;
   hiarchy?: number;
   parentId: number;
+  userId?: string;
 }
 const FormobjectCard = (props: IFormobjectCardProps) => {
   const [addModal, setAddModal] = React.useState({
@@ -71,7 +71,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
   const [answerId, setAnswerId] = React.useState(null);
   const [
     getAnswer,
-    { data: answerData, loading: answerLoading, error: answerError },
+    { loading: answerLoading },
   ] = useLazyQuery(GET_USER_ANSWER_BY_USER_ID_AND_FORM_OBJECT_ID, {
     variables: {
       userId: userId,
@@ -87,7 +87,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
       );
     },
   });
-  const { data, loading, error } = useQuery(
+  const { data, loading } = useQuery(
     GET_FORM_OBJ_BY_PARENT_ID,
     {
       variables: {
@@ -109,12 +109,13 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
 
   const [addAnswer] = useMutation(CREATE_USER_ANSWER);
   const [updateAnswer] = useMutation(UPDATE_USER_ANSWER);
+  const currentUserId = usePersistStore((state) => state.id);
 
   useEffect(() => {
     if (props.formObjectType === "QUESTION") {
       getAnswer();
     }
-  }, [data]);
+  }, [data, getAnswer, props.formObjectType]);
   return (
     <Box
       display={"grid"}
@@ -172,7 +173,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             gridTemplateColumns={"repeat(3, 1fr)"}
             gap={10}
           >
-            <CAN permissionNeeded={"ADMIN"} reverse={true}>
+            <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"} reverse={true}>
               <LinkButton
                 width={"70%"}
                 backgroundColor={Green}
@@ -189,7 +190,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -204,7 +205,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -214,7 +215,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                 بله
               </LinkButton>
             </CAN>
-            <CAN permissionNeeded={"ADMIN"} reverse={true}>
+            <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"} reverse={true}>
               <LinkButton
                 width={"70%"}
                 backgroundColor={Red}
@@ -232,7 +233,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -247,7 +248,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -257,7 +258,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                 خیر
               </LinkButton>
             </CAN>
-            <CAN permissionNeeded={"ADMIN"} reverse={true}>
+            <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"} reverse={true}>
               <LinkButton
                 width={"70%"}
                 backgroundColor={Yellow}
@@ -275,7 +276,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -290,7 +291,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                         console.log(data);
                         getAnswer();
                       },
-                      onError(error, clientOptions) {
+                      onError(error) {
                         console.log(error);
                       },
                     });
@@ -302,7 +303,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             </CAN>
           </Box>
         )}
-        <CAN permissionNeeded={"ADMIN"}>
+        <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"}>
           {props.formObjectType === "CATEGORY" && (
             <IButton
               title="Add Form Object"
@@ -322,7 +323,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             </IButton>
           )}
         </CAN>
-        <CAN permissionNeeded={"ADMIN"}>
+        <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"}>
           <IButton
             title="Edit Form Object"
             backgroundColor={Blue}
@@ -343,7 +344,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             <EditRounded />
           </IButton>
         </CAN>
-        <CAN permissionNeeded={"ADMIN"}>
+        <CAN permissionNeeded={currentUserId === props.userId ? null : "ADMIN"}>
           <IButton
             title="Delete Form Object"
             backgroundColor={Red}
@@ -401,7 +402,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
               projectId: number;
               parentId: number;
               content: string;
-              formObjectType: any;
+              formObjectType: never;
             }) => (
               <FormobjectCard
                 key={formObj.id}
@@ -411,6 +412,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
                 id={formObj.id}
                 parentId={formObj.parentId}
                 hiarchy={props.hiarchy ? props.hiarchy + 1 : 1}
+                userId={props.userId}
               />
             )
           )}
@@ -526,7 +528,7 @@ const FormobjectCard = (props: IFormobjectCardProps) => {
             width={"90%"}
           />
 
-<LinkButton
+          <LinkButton
             backgroundColor={primary}
             onClick={() => {
               console.log(addModal);
