@@ -32,14 +32,14 @@ export const UPDATE_PROJECT = gql`
     $id: Int!
     $contractNumber: String!
     $title: String!
-    $userId: String!
+    # $userId: String!
   ) {
     project_updateProject(
       input: {
         id: $id
         contractNumber: $contractNumber
         title: $title
-        userId: $userId
+        # userId: $userId
       }
     ) {
       result {

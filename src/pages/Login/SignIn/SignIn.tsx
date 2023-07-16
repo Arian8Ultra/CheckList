@@ -22,20 +22,16 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const setUser = usePersistStore((state) => state.setUser);
-  const addAbilityArray = useAbilityStore(
-    (state) => state.addAbilityArray
-  );
   const addAbility = useAbilityStore((state) => state.addAbility);
 
   const [
     userLogin,
-    { loading: userLoginLoading, error: userLoginError },
   ] = useMutation(LOGIN_USER, {
     variables: {
       userName: userName,
       password: password,
     },
-    onCompleted(data, clientOptions) {
+    onCompleted(data) {
       console.log(data);
       data.user_signIn.result.user?.userRoles &&
       data.user_signIn.result.user?.userRoles.map((role: any) => {
@@ -46,12 +42,12 @@ const SignIn = () => {
         data.user_signIn.result.user.firstName,
         data.user_signIn.result.user.lastName,
         data.user_signIn.result.token,
-        data.user_signIn.result.user.userCurrentRole,
+        data.user_signIn.result.user.userRoles[0].roleType,
         data.user_signIn.result.user.id
       );
       setLoading(false);
     },
-    onError(error, clientOptions) {
+    onError(error) {
       console.log(error);
       setLoading(false);
       setError(true);

@@ -62,6 +62,7 @@ const ProjectCard = (props: IProjectCardProps) => {
       id: props.id,
       title: editModal.title,
       contractNumber: editModal.contractNumber,
+      // userId:currentUserId,
     },
     onCompleted(data, clientOptions) {
       console.log(data);

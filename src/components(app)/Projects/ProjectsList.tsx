@@ -13,7 +13,9 @@ import {
 import TextInput from "../../components/TextInput";
 import {
   CardBackground,
+  onPrimary,
   primary,
+  primaryDark,
   textPrimary
 } from "../../theme/Colors";
 import ProjectCard from "./ProjectCard";
@@ -96,7 +98,9 @@ const ProjectsList = (props: ProjectsListProps) => {
         padding={"1%"}
         borderRadius={"15px"}
         sx={{
-          background: CardBackground,
+          background: primary,
+          position: "sticky",
+          top: "10%",
         }}
       >
         <Box
@@ -108,7 +112,7 @@ const ProjectsList = (props: ProjectsListProps) => {
         >
           <Typography
             sx={{
-              color: textPrimary,
+              color: onPrimary,
               fontWeight: "bold",
               fontSize: "medium",
             }}
@@ -125,7 +129,7 @@ const ProjectsList = (props: ProjectsListProps) => {
         >
           <Typography
             sx={{
-              color: textPrimary,
+              color: onPrimary,
               fontWeight: "bold",
               fontSize: "medium",
             }}

@@ -191,7 +191,7 @@ function MainLayout() {
       >
         <Box
           position={"sticky"}
-          top={20}
+          top={5}
           display={"grid"}
           gridTemplateColumns={{
             xs: "1fr",

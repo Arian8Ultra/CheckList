@@ -3,22 +3,24 @@ import { persist, createJSONStorage } from "zustand/middleware";
 
 export const usePersistStore = create(
   persist(
-    (set) => ({
+    (set,get) => ({
       firstName: "",
       lastName: "",
       token: "",
       role: "",
       id: "",
+      isvalid: false,
       setUser: (
         /** @type {string} */ firstName,
         /** @type {string} */ lastName,
         /** @type {string} */ token,
         /** @type {string} */ role,
-        /** @type {string} */ id
+        /** @type {string} */ id,
       ) => {
-        set({ firstName, lastName, token, role, id });
+        set({ firstName, lastName, token, role, id, isvalid: true });
         sessionStorage.setItem("token", token);
       },
+      changeValid: () => set({ isvalid: !get().isvalid }),
       logout: () =>
         set({
           firstName: "",
@@ -26,6 +28,7 @@ export const usePersistStore = create(
           token: "",
           role: "",
           id: "",
+          isvalid: false,
         }),
     }),
     {
