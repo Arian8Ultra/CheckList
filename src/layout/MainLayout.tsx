@@ -257,6 +257,29 @@ function MainLayout() {
                 />
               </IconButton>
             </Tooltip>
+            <Tooltip title={"داشبورد"}>
+              <IconButton
+                sx={{
+                  backgroundColor: primary,
+                  color: secondary,
+                  padding: 0,
+                  "&:hover": {
+                    backgroundColor: primary,
+                  },
+                }}
+                onClick={() => {
+                  window.open('http://dashboard-srv.mporg.ir/Reports/powerbi/test/%D8%B3%D8%A7%D9%85%D8%A7%D9%86%D9%87%20%DA%86%DA%A9%20%D9%84%DB%8C%D8%B3%D8%AA')
+                }}
+              >
+                <DashboardRounded
+                  sx={{
+                    width: "30px",
+                    height: "30px",
+                    color: primaryLight,
+                  }}
+                />
+              </IconButton>
+            </Tooltip>
             {/* <CAN permissionNeeded={"ADMIN"}>
               <Tooltip title={"داشبورد"}>
                 <IconButton

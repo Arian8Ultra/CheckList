@@ -11,6 +11,7 @@ export default defineConfig({
     emptyOutDir: true,
     cssCodeSplit: true,
     sourcemap: true,
+    chunkSizeWarningLimit: 1000,
     terserOptions: {
       sourceMap:true,
       compress: {
